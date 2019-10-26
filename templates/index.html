@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio Analysis</title>
+    <meta name="viewport" content="width = device-width, initial-scale=1">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+</head>
+
+<header>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="/">
+            <img src="{{ url_for('static', filename='images/eylogo.png') }}" width="25" height="25"
+                 class="d-inline-block align-top" alt="">
+            Audio Analysis Platform for {{ person }}
+            {{ for x in persons }}
+
+        </a>
+    </nav>
+
+</header>
+<body>
+
+<div align="center">
+    <form method=post enctype=multipart/form-data style="margin-top: 50px">
+        <div>
+            <input type=file name=file multiple class="btn btn-outline-secondary">
+        </div>
+        <div style="padding-top: 20px">
+        <div style="padding-top: 20px">
+            <input type=submit value="CSV Output" class="btn btn-primary">
+        </div>
+    </form>
+
+    <div class="container" align="center" style="padding-top: 20px">
+        <a href="/file/" target="blank">
+            <button class="btn btn-primary">Download Balance</button>
+        </a>
+    </div>
+</div>
+</div>
+</body>
+</html>
+</html>
