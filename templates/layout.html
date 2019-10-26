@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Audio Analysis</title>
@@ -24,11 +23,23 @@
     </nav>
 
 </header>
+<body>
 
-
+    {% block content %}
+    {% endblock %}
 
 </body>
-</html>
+<footer class="page-footer font-small blue">
+  <div>
+        <h3>How it Works</h3>
+        <small>First, we convert your audio file into a set of spoken sentences. Then, we run textual sentiment anlaysis on these sentences to
+            determine textual emotion behind each sentence. Finally, we do sentiment analysis using just your voice in the audio file. </small>
+        <small>We score you in two ways: percentage of sentences for which your voice emotion matches the text emotion, and also a proprietary score that measures how close your emotions were
+            to the text's emotions. This proprietary score is out of 10,000 with 10,000 being perfectly matching. Good luck practicing! </small>
+    </div>
+
+</footer>
+
 </html>
 
 
