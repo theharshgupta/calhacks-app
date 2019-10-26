@@ -165,3 +165,7 @@ if __name__ == '__main__':
 def get_gcloud_data(filename):
     # saves gcloud data as filename into Google_voice_data folder
     response = gcloud_speech_to_text(filename)
+
+
+def save_score_data():
+    p = subprocess.Popen(["cd","DeepMoji-master","examples","python3","score_texts_emojis.py"])
