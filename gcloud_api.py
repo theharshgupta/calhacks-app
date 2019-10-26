@@ -16,11 +16,11 @@ client = speech.SpeechClient()
 file_name = os.path.join(
     os.path.dirname(__file__),
     'Audio_files',
-    'emotions.mp3')
+    'Anish.mp3')
 wav_file_name = os.path.join(
     os.path.dirname(__file__),
     'Audio_files',
-    'emotions.wav')
+    'Anish.wav')
 convert = AudioSegment.from_mp3(file_name)
 convert.set_channels(1)
 ##convert.export(wav_file_name, format="wav")
@@ -32,14 +32,28 @@ with io.open(wav_file_name, 'rb') as audio_file:
 
 config = types.RecognitionConfig(
     encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
-    "enable_word_time_offsets": enable_word_time_offsets,
-    "enable_automatic_punctuation": enable_automatic_punctuation.
-    sample_rate_hertz=16000,
+    enable_word_time_offsets=True,
+    enable_automatic_punctuation=True,
     language_code='en-US')
 
 # Detects speech in the audio file
 response = client.recognize(config, audio)
 
-for result in response.results:
-    print('Transcript: {}'.format(result.alternatives[0].transcript))
-transcript = result.alternatives[0].transcript
+# The first result includes start and end time word offsets
+result = response.results[0]
+# First alternative is the most probable result
+alternative = result.alternatives[0]
+print(u"Transcript: {}".format(alternative.transcript))
+# Print the start and end time of each word
+for word in alternative.words:
+    print(u"Word: {}".format(word.word))
+    print(
+        u"Start time: {} seconds {} nanos".format(
+            word.start_time.seconds, word.start_time.nanos
+        )
+    )
+    print(
+        u"End time: {} seconds {} nanos".format(
+            word.end_time.seconds, word.end_time.nanos
+        )
+    )
