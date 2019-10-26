@@ -17,20 +17,28 @@ from deepmoji.sentence_tokenizer import SentenceTokenizer
 from deepmoji.model_def import deepmoji_emojis
 from deepmoji.global_variables import PRETRAINED_PATH, VOCAB_PATH
 import sys
+script = 'this must be set to equal input from webpage'
+script=script.decode('utf-8')
+whitelist = set('abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ.')
+updated_script = ''.join(filter(whitelist.__contains__, script))
+sentence = []
+string=''
+
+for c in range(len(updated_x)):
+    string = string + c
+    if c=='.':
+        sentence_list.append(string)
+        string = ''
 
 
 OUTPUT_PATH = 'test_sentences.csv'
-x='complete file'
-whitelist = set('abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ.')
-updated_x = ''.join(filter(whitelist.__contains__, x))
 
-
-TEST_SENTENCES = [sentence]
 
 
 def top_elements(array, k):
     ind = np.argpartition(array, -k)[-k:]
     return ind[np.argsort(array[ind])][::-1]
+
 
 
 maxlen = 30
@@ -50,6 +58,8 @@ prob = model.predict(tokenized)
 # correspond to the mapping in emoji_overview.png
 # at the root of the DeepMoji repo.
 scores = []
+emotions = ['frustration','anger','excited','happy'(3),'neutral','disgust','joy'(6)]
+mapping = [2,0,0,0,6,0,2,6,6,2,3,4,4,2,4,3,6,6,6,0,3,2,4,4,6,4,4,0,3,5,3,3,1,2,4,4,3,1,4,4,2,2,4,4,2,4,4,3,3,3,3,2,0,6,2,1,3,4,2,3,3,3,4,4]
 for i, t in enumerate(TEST_SENTENCES):
     t_tokens = tokenized[i]
     t_score = [t]
@@ -58,19 +68,8 @@ for i, t in enumerate(TEST_SENTENCES):
     t_score.append(sum(t_prob[ind_top]))
     t_score.extend(ind_top)
     t_score.extend([t_prob[ind] for ind in ind_top])
-    scores.append(t_score)
-    print(t_score)
-def f(t_score):
-    return t_score
-f(t_score)
-exit()
-with open(OUTPUT_PATH, 'wb') as csvfile:
-    writer = csv.writer(csvfile, delimiter=',', lineterminator='\n')
-    writer.writerow(['Text', 'Top5%',
-                     'Emoji_1', 'Emoji_2', 'Emoji_3', 'Emoji_4', 'Emoji_5',
-                     'Pct_1', 'Pct_2', 'Pct_3', 'Pct_4', 'Pct_5'])
-    for i, row in enumerate(scores):
-        try:
-            writer.writerow(row)
-        except Exception:
-            x=3
+    scores.append(emotions[mapping[t_score[2]]])
+    #can also edit this to incorporate certainty of prediction
+def f(scores):
+    return scores
+f()
