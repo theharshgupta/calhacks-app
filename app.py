@@ -56,6 +56,10 @@ def return_file():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    """
+    This the the landing page. It includes an upload and submit button
+    :return:
+    """
     if os.path.isfile('downloads/out.csv'):
         os.remove('downloads/out.csv')
     if os.path.isfile('downloads/bal.csv'):
@@ -71,9 +75,9 @@ def index():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                process_file(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                process_file(path=os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 # uploaded_file(filename=filename)
-        return redirect(url_for('uploaded_file', filename=filename))
+        return render_template('downloads.html')
     return render_template('index.html')
 
 
@@ -88,6 +92,9 @@ def process_file(path):
 
 
 def emptydir():
+    """
+    :return:
+    """
     for folder in [UPLOAD_FOLDER, DOWNLOAD_FOLDER]:
         for the_file in os.listdir(folder):
             file_path = os.path.join(folder, the_file)
@@ -139,7 +146,7 @@ def emotion_tagging(path):
 
     json_result = [{"end": 3.0, "start": 0.0, "emotion": "neutral"}, {"end": 6.0, "start": 3.0, "emotion": "happy"},
                    {"end": 8.856, "start": 6.0, "emotion": "excited"}]
-
+    print(json_result)
     return json_result
 
 
