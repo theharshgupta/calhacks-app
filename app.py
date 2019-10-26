@@ -108,28 +108,39 @@ def emotion_tagging(path):
     # In this program, we are calling the url and making a get request to that using Harsh's API key
     # We send the mp3 file we want to upload decoded audio in the body_json of the requests
 
-    url = "https://proxy.api.deepaffects.com/audio/generic/api/v2/sync/recognise_emotion?apikey" \
-          "=7h1YbhaMje9IBTrUTDGNa8KGABD1n9cn"
+    """
+    This function takes the path of the audio file and calls the DeepAffects API.
 
-    headers = {'Content-Type': "application/json"}
+    :param path: path to the audio file, uploaded, present locally
+    :return: json response from the API
+    """
+    # Just for testing, we are commenting the API Calls and just returning the API Response as JSON
 
-    with open(path, 'rb') as fin:
-        audio_content = fin.read()
 
-    audio_decoded = base64.b64encode(audio_content).decode('utf-8')
+    # url = "https://proxy.api.deepaffects.com/audio/generic/api/v2/sync/recognise_emotion?apikey" \
+    #       "=7h1YbhaMje9IBTrUTDGNa8KGABD1n9cn"
+    #
+    # headers = {'Content-Type': "application/json"}
+    #
+    # with open(path, 'rb') as fin:
+    #     audio_content = fin.read()
+    # audio_decoded = base64.b64encode(audio_content).decode('utf-8')
+    #
+    # body_json = {"content": audio_decoded,
+    #              "encoding": "MPEG Audio",
+    #              "language_code": "en-US",
+    #              "sample_rate": 48000}
+    #
+    # # text_body_json = {"content": ""}
+    #
+    # data = requests.post(url=url, json=body_json, headers=headers)
+    # with open('audio-analysis/results.txt', 'w') as output:
+    #     output.write(data.text)
+    # pprint(data.text)
+    json_result = [{"end": 3.0, "start": 0.0, "emotion": "neutral"}, {"end": 6.0, "start": 3.0, "emotion": "happy"},
+                   {"end": 8.856, "start": 6.0, "emotion": "excited"}]
 
-    body_json = {"content": audio_decoded,
-                 "encoding": "MPEG Audio",
-                 "language_code": "en-US",
-                 "sample_rate": 48000}
-
-    # text_body_json = {"content": ""}
-
-    data = requests.post(url=url, json=body_json, headers=headers)
-    with open('audio-analysis/results.txt', 'w') as output:
-        output.write(data.text)
-    pprint(data.text)
-
+    return json_result
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
