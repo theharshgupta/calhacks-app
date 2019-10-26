@@ -25,4 +25,13 @@ def gcloud_speech_to_text(file_name):
         language_code='en-US')
 
     # Detects speech in the audio file
-    return client.recognize(config, audio)
+    response = client.recognize(config, audio)
+
+    output_file_name = os.path.join(
+        'Google_voice_data/',
+        "test.txt")
+
+    file = open(output_file_name, 'w')
+    file.write(str(response))
+    file.close()
+    return response
