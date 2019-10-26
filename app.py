@@ -71,21 +71,20 @@ def index():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                process_file(os.path.join(app.config['UPLOAD_FOLDER'], filename), filename=filename)
+                process_file(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 # uploaded_file(filename=filename)
         return redirect(url_for('uploaded_file', filename=filename))
     return render_template('index.html')
 
 
-def process_file(path, filename):
+def process_file(path):
+    """
+    Calls the relevant functions once the file is uploaded by the user. Right now we are calling the emotion tagging
+    function
+    :param path: path to the audio file
+    :return: Nothing
+    """
     emotion_tagging(path=path)
-
-    # if bank_name is "JPM":
-    #     print("Fuck")
-    #     # master_jpm(path=path, filename=filename)
-    # if bank_name is "BOA":
-    #     print("off")
-    #     # master_boa(path=path, filename=filename)
 
 
 def emptydir():
@@ -108,6 +107,14 @@ def emotion_tagging(path):
     # In this program, we are calling the url and making a get request to that using Harsh's API key
     # We send the mp3 file we want to upload decoded audio in the body_json of the requests
 
+    """
+    This function takes the path of the audio file and calls the DeepAffects API.
+
+    :param path: path to the audio file, uploaded, present locally
+    :return: json response from the API
+    """
+    # Just for testing, we are commenting the API Calls and just returning the API Response as JSON
+    """
     url = "https://proxy.api.deepaffects.com/audio/generic/api/v2/sync/recognise_emotion?apikey" \
           "=7h1YbhaMje9IBTrUTDGNa8KGABD1n9cn"
 
@@ -115,7 +122,6 @@ def emotion_tagging(path):
 
     with open(path, 'rb') as fin:
         audio_content = fin.read()
-
     audio_decoded = base64.b64encode(audio_content).decode('utf-8')
 
     body_json = {"content": audio_decoded,
@@ -129,6 +135,12 @@ def emotion_tagging(path):
     with open('audio-analysis/results.txt', 'w') as output:
         output.write(data.text)
     pprint(data.text)
+    """
+
+    json_result = [{"end": 3.0, "start": 0.0, "emotion": "neutral"}, {"end": 6.0, "start": 3.0, "emotion": "happy"},
+                   {"end": 8.856, "start": 6.0, "emotion": "excited"}]
+
+    return json_result
 
 
 @app.route('/uploads/<filename>')
@@ -142,8 +154,7 @@ def uploaded_file(filename):
 if __name__ == '__main__':
     app.run(debug=True)
 
-def get_gcloud_data(filename):
-    #saves gcloud data as filename into Google_voice_data folder
-    response = gcloud_speech_to_text(filename)
 
-    
+def get_gcloud_data(filename):
+    # saves gcloud data as filename into Google_voice_data folder
+    response = gcloud_speech_to_text(filename)

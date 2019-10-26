@@ -20,14 +20,13 @@ from deepmoji.model_def import deepmoji_emojis
 from deepmoji.global_variables import PRETRAINED_PATH, VOCAB_PATH
 import os
 
-
 current_path = os.getcwd()
 path = current_path[:-24] + "Google_voice_data/anish.wav.json"
 path2 = current_path[:-24] + "audio-analysis/results.txt"
 with open(path, 'r') as f:
     j = json.load(f)
 
-f=open(path2, "r")
+f = open(path2, "r")
 audio_tagged = eval(f.read())
 
 all_words_dict_list = j['words']
@@ -42,30 +41,28 @@ for word in audio_tagged:
 
 for word_dict in all_words_dict_list:
     words.append(word_dict['word'])
-    gtime_stamps.append(float(word_dict['end_time'])/1000)
-    #gtime_stamps are in seconds
-
-
+    gtime_stamps.append(float(word_dict['end_time']) / 1000)
+    # gtime_stamps are in seconds
 
 clauses = []
-string=''
+string = ''
 pos = 0
-l = min(len(words),len(gtime_stamps))
+l = min(len(words), len(gtime_stamps))
 for i in range(l):
     if pos < len(deep_affects_time_stamps):
         t = deep_affects_time_stamps[pos]
-        if gtime_stamps[i] >= t or i == (l-1):
+        if gtime_stamps[i] >= t or i == (l - 1):
             string = string + words[i]
             clauses.append(string)
             string = ''
-            pos+=1
+            pos += 1
         else:
             string = string + words[i] + ' '
+
 
 def top_elements(array, k):
     ind = np.argpartition(array, -k)[-k:]
     return ind[np.argsort(array[ind])][::-1]
-
 
 
 maxlen = 30
@@ -85,8 +82,9 @@ prob = model.predict(tokenized)
 # correspond to the mapping in emoji_overview.png
 # at the root of the DeepMoji repo.
 scores = []
-emotions = ['frustration','anger','excited','happy','neutral','disgust','joy']
-mapping = [2,0,0,0,6,0,2,6,6,2,3,4,4,2,4,3,6,6,6,0,3,2,4,4,6,4,4,0,3,5,3,3,1,2,4,4,3,1,4,4,2,2,4,4,2,4,4,3,3,3,3,2,0,6,2,1,3,4,2,3,3,3,4,4]
+emotions = ['frustration', 'anger', 'excited', 'happy', 'neutral', 'disgust', 'joy']
+mapping = [2, 0, 0, 0, 6, 0, 2, 6, 6, 2, 3, 4, 4, 2, 4, 3, 6, 6, 6, 0, 3, 2, 4, 4, 6, 4, 4, 0, 3, 5, 3, 3, 1, 2, 4, 4,
+           3, 1, 4, 4, 2, 2, 4, 4, 2, 4, 4, 3, 3, 3, 3, 2, 0, 6, 2, 1, 3, 4, 2, 3, 3, 3, 4, 4]
 for i, t in enumerate(clauses):
     t_tokens = tokenized[i]
     t_score = [t]
@@ -96,42 +94,51 @@ for i, t in enumerate(clauses):
     t_score.extend(ind_top)
     t_score.extend([t_prob[ind] for ind in ind_top])
     scores.append(emotions[mapping[t_score[2]]])
-    #can also edit this to incorporate certainty of prediction
-def f(scores,audio_emotions):
-    l = min(len(audio_emotions),len(scores))
+    # can also edit this to incorporate certainty of prediction
+
+
+def f(scores, audio_emotions):
+    l = min(len(audio_emotions), len(scores))
     n_correct = 0
     for i in range(l):
         if audio_emotions[i] == scores[i]:
-            n_correct+=1
+            n_correct += 1
     return float(n_correct) / l
-y = f(scores,audio_emotions)
-#y is the percentage of the clauses that match between the text sentiment and audio_emotion sentiment
 
-def f2(scores,audio_emotions):
-    l = min(len(audio_emotions),len(scores))
+
+y = f(scores, audio_emotions)
+
+
+# y is the percentage of the clauses that match between the text sentiment and audio_emotion sentiment
+
+def f2(scores, audio_emotions):
+    l = min(len(audio_emotions), len(scores))
     n = 0
     n_correct = 0
     for i in range(l):
         if scores[i] != 'neutral':
-            n+=1
+            n += 1
             if audio_emotions[i] == scores[i]:
-                n_correct+=1
+                n_correct += 1
     return float(n_correct) / n
 
-y2 = f2(scores,audio_emotions)
-#y2 is the percentage of clauses that match between scores and audio_emotions when only
-#looking at clauses that were not classified in the text portion as being neutral
+
+y2 = f2(scores, audio_emotions)
 
 
+# y2 is the percentage of clauses that match between scores and audio_emotions when only
+# looking at clauses that were not classified in the text portion as being neutral
 
-def get_audio_annotations(clauses,audio_emotions):
+
+def get_audio_annotations(clauses, audio_emotions):
     audio_annotations = []
-    for i in min(len(clauses),len(audio_emotions)):
-        audio_annotations.append(clauses[i],audio_emotions[i])
+    for i in min(len(clauses), len(audio_emotions)):
+        audio_annotations.append(clauses[i], audio_emotions[i])
     return audio_annotations
 
-def get_text_annotations(clauses,audio_emotions):
-    text_annotations=[]
-    for i in min(len(clauses),len(text_emotions)):
-        text_annotations.append(clauses[i],text_emotions[i])
+
+def get_text_annotations(clauses, audio_emotions):
+    text_annotations = []
+    for i in min(len(clauses), len(text_emotions)):
+        text_annotations.append(clauses[i], text_emotions[i])
     return text_annotations
