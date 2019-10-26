@@ -1,5 +1,7 @@
 from __future__ import print_function
 import re
+import subprocess
+
 import datefinder
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename
@@ -161,4 +163,4 @@ def get_gcloud_data(filename):
 
 
 def save_score_data():
-    p = subprocess.Popen(["cd","DeepMoji-master","examples","python3","score_texts_emojis.py"])
+    subprocess.Popen(["api/python2.7/bin/python", "DeepMoji-master/examples/score_texts_emojis.py"])
