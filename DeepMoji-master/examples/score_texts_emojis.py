@@ -21,8 +21,8 @@ from deepmoji.global_variables import PRETRAINED_PATH, VOCAB_PATH
 import os
 
 current_path = os.getcwd()
-path = current_path[:-24] + "Google_voice_data/anish.wav.json"
-path2 = current_path[:-24] + "audio-analysis/results.txt"
+path = current_path + '/'+"Google_voice_data/anish.wav.json"
+path2 = current_path + '/'+"audio-analysis/results.txt"
 with open(path, 'r') as f:
     j = json.load(f)
 
