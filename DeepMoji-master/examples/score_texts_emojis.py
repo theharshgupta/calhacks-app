@@ -6,6 +6,8 @@
 The resulting emoji ids (0-63) correspond to the mapping
 in emoji_overview.png file at the root of the DeepMoji repo.
 
+These 64 results were mapped to emotions that can be displayed by the audio analysis tool.
+
 Writes the result to a csv file.
 """
 from __future__ import print_function, division
@@ -16,43 +18,39 @@ import numpy as np
 from deepmoji.sentence_tokenizer import SentenceTokenizer
 from deepmoji.model_def import deepmoji_emojis
 from deepmoji.global_variables import PRETRAINED_PATH, VOCAB_PATH
-import sys
+import os
 
-sys.path.append('../')
+current_path = os.getcwd()
+path = current_path[:-24] + "Google_voice_data/anish.wav.json"
 
-f = open('Google_voice_data/test.txt', 'r')
+with open(path, 'r') as f:
+    j = json.load(f)
 
-script = f.read()
 
-
-script = 'should get the script from json'
-script=script.decode('utf-8')
-whitelist = set('abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ.,')
-#may be able to add in other punctuation in the whitelist.
-updated_script = ''.join(filter(whitelist.__contains__, script))
+all_words_dict_list = j['words']
 words = []
+gtime_stamps = []
 
-string = ''
-for c in updated_script:
-    if c == '.' or c == ',' or c==' ' and string:
-        words.append(string)
-        string = ''
-    else:
-        string = string + c
+for word_dict in all_words_dict_list:
+    words.append(word_dict['word'])
+    gtime_stamps.append(float(word_dict['end_time'])/1000)
+    #gtime_stamps are in seconds
 
-google_word_time_stamps = []
+
 deep_affects_time_stamps = []
 clauses = []
 
 string=''
 pos = 1
-for i in range(min(len(words),len(google_word_time_stamps))):
+for i in range(min(len(words),len(gtime_stamps))):
     t = deep_affects_time_stamps[pos]
-    string = string + ' ' + words[i]
-    if google_word_time_stamps[i] >= t:
+    if gtime_stamps[i] >= t:
+        string = string + words[i]
         clauses.append(string)
         string = ''
         pos+=1
+    else:
+        string = words[i] + ' '
 
 
 def top_elements(array, k):
