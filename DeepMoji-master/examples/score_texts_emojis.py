@@ -20,22 +20,35 @@ from deepmoji.global_variables import PRETRAINED_PATH, VOCAB_PATH
 with open("Google_voice_data/j", 'r') as f:
     voice_data = json.load(f)
 
-script = transcript
+script = 'should get the script from json'
 script=script.decode('utf-8')
 whitelist = set('abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ.,')
 #may be able to add in other punctuation in the whitelist.
 updated_script = ''.join(filter(whitelist.__contains__, script))
-sentence = []
-string=''
+words = []
 
-for c in updated_script:
-    string = string + c
-    if c=='.' or c==',':
-        sentence_list.append(string)
+string = ''
+for c in range updated_script:
+    if c == '.' or c == ',' or c==' ' and string:
+        words.append(string)
         string = ''
+    else:
+        string = string + c
 
+google_word_time_stamps = []
+deep_affects_time_stamps = []
+clauses = []
 
-OUTPUT_PATH = 'test_sentences.csv'
+string=''
+pos = 1
+for i in range(min(len(words),len(word_time_stamps))):
+    t = deep_affects_time_stamps[pos]
+    string = string + ' ' + words[i]
+    if google_word_time_stamps[i] >= t:
+        clauses.append(string)
+        string = ''
+        pos+=1
+
 
 
 
@@ -51,7 +64,7 @@ batch_size = 32
 with open(VOCAB_PATH, 'r') as f:
     vocabulary = json.load(f)
 st = SentenceTokenizer(vocabulary, maxlen)
-tokenized, _, _ = st.tokenize_sentences(TEST_SENTENCES)
+tokenized, _, _ = st.tokenize_sentences(clauses)
 
 model = deepmoji_emojis(maxlen, PRETRAINED_PATH)
 model.summary()
@@ -64,7 +77,7 @@ prob = model.predict(tokenized)
 scores = []
 emotions = ['frustration','anger','excited','happy'(3),'neutral','disgust','joy'(6)]
 mapping = [2,0,0,0,6,0,2,6,6,2,3,4,4,2,4,3,6,6,6,0,3,2,4,4,6,4,4,0,3,5,3,3,1,2,4,4,3,1,4,4,2,2,4,4,2,4,4,3,3,3,3,2,0,6,2,1,3,4,2,3,3,3,4,4]
-for i, t in enumerate(TEST_SENTENCES):
+for i, t in enumerate(clauses):
     t_tokens = tokenized[i]
     t_score = [t]
     t_prob = prob[i]
