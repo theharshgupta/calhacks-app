@@ -196,3 +196,7 @@ def get_clause_emotions(filename):
             else:
                 string = string + words[i] + ' '
     return clause_and_emotion
+
+def answer(filename):
+    dict = get_clause_emotions(filename)
+    return json.dumps(dict)
