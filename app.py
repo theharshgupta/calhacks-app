@@ -2,11 +2,12 @@ from flask import Flask, render_template, url_for, send_from_directory, send_fil
 
 app = Flask(__name__)
 
-@app.route('/harsh')
+
+@app.route('/')
 def hello_world():
     name = 'Harsh Gupta'
     return render_template('index.html', person=name)
-    # return 'Hello World!'
+
 
 if __name__ == '__main__':
     app.run()
