@@ -26,6 +26,7 @@ Here we define the download and the upload folder on the server
 '''
 UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/uploads/'
 DOWNLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/downloads/'
+
 # The allowed extensions that can be uploaded on the webpage
 ALLOWED_EXTENSIONS = {'pdf', 'csv', 'mp3'}
 
@@ -35,11 +36,6 @@ app = Flask(__name__, static_url_path="/static")
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
-
-if os.path.isfile('downloads/out.csv'):
-    os.remove('downloads/out.csv')
-if os.path.isfile('downloads/bal.csv'):
-    os.remove('downloads/bal.csv')
 
 # limit upload size upto 100mb
 app.config['MAX_CONTENT_LENGTH'] = 150 * 1024 * 1024
