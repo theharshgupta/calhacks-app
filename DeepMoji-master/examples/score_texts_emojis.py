@@ -20,6 +20,7 @@ import sys
 script = 'this must be set to equal input from webpage'
 script=script.decode('utf-8')
 whitelist = set('abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ.')
+#may be able to add in other punctuation in the whitelist.
 updated_script = ''.join(filter(whitelist.__contains__, script))
 sentence = []
 string=''
