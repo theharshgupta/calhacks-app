@@ -116,6 +116,21 @@ def f2(scores,audio_emotions):
             if audio_emotions[i] == scores[i]:
                 n_correct+=1
     return float(n_correct) / n
+
 y2 = f2(scores,audio_emotions)
 #y2 is the percentage of clauses that match between scores and audio_emotions when only
 #looking at clauses that were not classified in the text portion as being neutral
+
+
+
+def get_audio_annotations(clauses,audio_emotions):
+    audio_annotations = []
+    for i in min(len(clauses),len(audio_emotions)):
+        audio_annotations.append(clauses[i],audio_emotions[i])
+    return audio_annotations
+
+def get_text_annotations(clauses,audio_emotions):
+    text_annotations=[]
+    for i in min(len(clauses),len(text_emotions)):
+        text_annotations.append(clauses[i],text_emotions[i])
+    return text_annotations
