@@ -14,7 +14,7 @@ url = "https://proxy.api.deepaffects.com/audio/generic/api/v2/sync/recognise_emo
 
 headers = {'Content-Type': "application/json"}
 
-with open("emotions.mp3", 'rb') as fin:
+with open("anish.mp3", 'rb') as fin:
     audio_content = fin.read()
 
 audio_decoded = base64.b64encode(audio_content).decode('utf-8')
@@ -25,5 +25,5 @@ body_json = {"content": audio_decoded,
              "sample_rate": 48000}
 
 data = requests.post(url=url, json=body_json, headers=headers)
-
-pprint(data.text)
+with open('results.txt', 'w') as output:
+    output.write(data.text)
