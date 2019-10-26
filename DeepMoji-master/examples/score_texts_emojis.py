@@ -16,11 +16,9 @@ import numpy as np
 from deepmoji.sentence_tokenizer import SentenceTokenizer
 from deepmoji.model_def import deepmoji_emojis
 from deepmoji.global_variables import PRETRAINED_PATH, VOCAB_PATH
-import sys,os
-path = os.getcwd()
-path = path[:-23]
-sys.path.append(path)
-from gcloud_api import transcript
+
+with open("Google_voice_data/j", 'r') as f:
+    voice_data = json.load(f)
 
 script = transcript
 script=script.decode('utf-8')
