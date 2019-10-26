@@ -16,9 +16,14 @@ import numpy as np
 from deepmoji.sentence_tokenizer import SentenceTokenizer
 from deepmoji.model_def import deepmoji_emojis
 from deepmoji.global_variables import PRETRAINED_PATH, VOCAB_PATH
+import sys
 
-with open("Google_voice_data/test", 'r') as f:
-    voice_data = json.load(f)
+sys.path.append('../')
+
+f = open('Google_voice_data/test.txt', 'r')
+
+script = f.read()
+
 
 script = 'should get the script from json'
 script=script.decode('utf-8')
@@ -28,7 +33,7 @@ updated_script = ''.join(filter(whitelist.__contains__, script))
 words = []
 
 string = ''
-for c in range updated_script:
+for c in updated_script:
     if c == '.' or c == ',' or c==' ' and string:
         words.append(string)
         string = ''
@@ -41,7 +46,7 @@ clauses = []
 
 string=''
 pos = 1
-for i in range(min(len(words),len(word_time_stamps))):
+for i in range(min(len(words),len(google_word_time_stamps))):
     t = deep_affects_time_stamps[pos]
     string = string + ' ' + words[i]
     if google_word_time_stamps[i] >= t:
