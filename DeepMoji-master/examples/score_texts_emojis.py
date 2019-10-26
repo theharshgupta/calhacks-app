@@ -131,14 +131,20 @@ y2 = f2(scores, audio_emotions)
 
 
 def get_audio_annotations(clauses, audio_emotions):
-    audio_annotations = []
+    audio_annotations = {}
     for i in min(len(clauses), len(audio_emotions)):
-        audio_annotations.append(clauses[i], audio_emotions[i])
-    return audio_annotations
+        audio_annotations{clauses[i]} = audio_emotions[i]
+    filename = current_path+'audio_annotations.json'
+    datastore = audio_annotations
+    with open(filename, 'w') as f:
+            json.dump(datastore, f)
 
 
-def get_text_annotations(clauses, audio_emotions):
-    text_annotations = []
-    for i in min(len(clauses), len(text_emotions)):
-        text_annotations.append(clauses[i], text_emotions[i])
-    return text_annotations
+def get_text_annotations(clauses, scores):
+    text_annotations = {}
+    for i in min(len(clauses), len(scores)):
+        text_annotations[clauses[i]] = scores[i]
+    filename = current_path+'text_annotations.json'
+    datastore = text_annotations
+    with open(filename, 'w') as f:
+            json.dump(datastore, f)
