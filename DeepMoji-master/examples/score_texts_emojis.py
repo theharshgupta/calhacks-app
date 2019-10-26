@@ -21,13 +21,12 @@ from deepmoji.global_variables import PRETRAINED_PATH, VOCAB_PATH
 import os
 
 current_path = os.getcwd()
-path = current_path + '/'+"Google_voice_data/anish.wav.json"
-path2 = current_path + '/'+"audio-analysis/results.txt"
+path = current_path + '/'+"Google_voice_data/google_data.json"
+
 with open(path, 'r') as f:
     j = json.load(f)
 
-f = open(path2, "r")
-audio_tagged = eval(f.read())
+audio_tagged = eval(sys.argv[1])
 
 all_words_dict_list = j['words']
 words = []

@@ -74,6 +74,8 @@ def process_file(path):
     """
     emotion_tagging(path=path)
     save_score_data()
+    get_clause_emotions(path=path)
+    #the function above returns the clause/emotion dictionary which can be used to display the scripts.
 
 
 def emptydir():
@@ -147,13 +149,46 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-def get_gcloud_data(filename):
-    # saves gcloud data as filename into Google_voice_data folder
-    response = gcloud_speech_to_text(filename)
+def get_clause_emotions(filename):
+    # loads audio file-filename and returns clause_and_emotion dictionary.
+    gresponse = gcloud_speech_to_text(filename)
+    deepresponse = emotion_tagging(filename)
 
+    deep_affects_time_stamps = []
+    audio_emotions = []
 
-def save_score_data():
-    subprocess.Popen(["api/python2.7/bin/python", "DeepMoji-master/examples/score_texts_emojis.py"])
+    google_words = gresponse["words"]
+    gtime_stamps = []
+    words = []
+
+    for word in google_words:
+
+        words.append(word["word"])
+        gtime_stamps.append(float(word['end_time']) / 1000)
+
+    for tag in deepresponse:
+        deep_affects_time_stamps.append(tag["end"])
+        audio_emotions.append(tag["emotion"])
+
+    dpeffects = {}
+    string = ''
+    pos = 0
+    l = min(len(words), len(gtime_stamps))
+    for i in range(l):
+        if pos < len(deep_affects_time_stamps):
+            t = deep_affects_time_stamps[pos]
+            if gtime_stamps[i] >= t or i == (l - 1):
+                string = string + words[i] + '.'
+                dpeffects[string] = deep_affects_time_stamps[pos]
+                string = ''
+                pos += 1
+            else:
+                string = string + words[i] + ' '
+    return dpeffects
+
+def answer(filename):
+    dpeffects, = get_clause_emotions(filename)
+    return json.dumps(dpeffects)
 
 
 def tone_analyzer():
