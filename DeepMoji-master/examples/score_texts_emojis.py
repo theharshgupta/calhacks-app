@@ -16,8 +16,13 @@ import numpy as np
 from deepmoji.sentence_tokenizer import SentenceTokenizer
 from deepmoji.model_def import deepmoji_emojis
 from deepmoji.global_variables import PRETRAINED_PATH, VOCAB_PATH
-import sys
-script = 'this must be set to equal input from webpage'
+import sys,os
+path = os.getcwd()
+path = path[:-23]
+sys.path.append(path)
+from gcloud_api import transcript
+
+script = transcript
 script=script.decode('utf-8')
 whitelist = set('abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ.')
 #may be able to add in other punctuation in the whitelist.
@@ -25,7 +30,7 @@ updated_script = ''.join(filter(whitelist.__contains__, script))
 sentence = []
 string=''
 
-for c in range(len(updated_x)):
+for c in updated_script:
     string = string + c
     if c=='.':
         sentence_list.append(string)

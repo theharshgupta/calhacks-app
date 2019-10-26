@@ -17,9 +17,9 @@
 <header>
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="/">
-            <img src="{{ url_for('static', filename='images/eylogo.png') }}" width="25" height="25"
+            <img src="{{ url_for('static', filename='images/logowave.png') }}" width="25" height="25"
                  class="d-inline-block align-top" alt="">
-            Audio Analysis Platform for {{ person }}
+            Audio Analysis Platform
 
         </a>
     </nav>
@@ -35,13 +35,16 @@
             <input type=file name=file multiple class="btn btn-outline-secondary">
         </div>
         <div style="padding-top: 20px">
-        <div style="padding-top: 20px">
-            <input type=submit value="CSV Output" class="btn btn-primary">
+            <input type=submit value="Submit" class="btn btn-primary">
         </div>
     </form>
+  </br>
+</br>
     <h3>How it Works</h3>
-      <small>We will do sentiment analysis to get the emotion behind each sentence in your script. Then, we analyze the sentences in your audio recording to see if your voice emotions match.
-      We score you in two ways: percentage of sentences for which your voice emotion matches the text emotion, and also a proprietary score that measures how close your emotions were
+      <small>First, we convert your audio file into a set of spoken sentences. Then we run textual sentiment anlaysis on these sentences to
+        determine textual emotion behind each sentence. Then, we do sentiment analysis using just your voice in the audio file. </small>
+      </br>
+      <small>We score you in two ways: percentage of sentences for which your voice emotion matches the text emotion, and also a proprietary score that measures how close your emotions were
     to the text's emotions. This proprietary score is out of 10,000 with 10,000 being perfectly matching. Good luck practicing! </small>
 </div>
 </div>
