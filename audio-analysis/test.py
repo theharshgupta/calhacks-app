@@ -25,5 +25,6 @@ body_json = {"content": audio_decoded,
              "sample_rate": 48000}
 
 data = requests.post(url=url, json=body_json, headers=headers)
+
 with open('results.txt', 'w') as output:
     output.write(data.text)

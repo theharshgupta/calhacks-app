@@ -37,7 +37,7 @@ audio_emotions = []
 
 for word in audio_tagged:
     deep_affects_time_stamps.append(word["end"])
-    audio_emotions = word["emotion"]
+    audio_emotions.append(word["emotion"])
 
 for word_dict in all_words_dict_list:
     words.append(word_dict['word'])

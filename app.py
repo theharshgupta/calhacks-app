@@ -125,6 +125,8 @@ def emotion_tagging(path):
     # text_body_json = {"content": ""}
 
     data = requests.post(url=url, json=body_json, headers=headers)
+    with open('audio-analysis/results.txt', 'w') as output:
+        output.write(data.text)
     pprint(data.text)
 
 
