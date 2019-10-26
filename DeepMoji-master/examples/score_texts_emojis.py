@@ -24,7 +24,7 @@ from gcloud_api import transcript
 
 script = transcript
 script=script.decode('utf-8')
-whitelist = set('abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ.')
+whitelist = set('abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ.,')
 #may be able to add in other punctuation in the whitelist.
 updated_script = ''.join(filter(whitelist.__contains__, script))
 sentence = []
@@ -32,7 +32,7 @@ string=''
 
 for c in updated_script:
     string = string + c
-    if c=='.':
+    if c=='.' or c==',':
         sentence_list.append(string)
         string = ''
 

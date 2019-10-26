@@ -22,6 +22,8 @@ with io.open(file_name, 'rb') as audio_file:
 
 config = types.RecognitionConfig(
     encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
+    "enable_word_time_offsets": enable_word_time_offsets,
+    "enable_automatic_punctuation": enable_automatic_punctuation.
     sample_rate_hertz=16000,
     language_code='en-US')
 
