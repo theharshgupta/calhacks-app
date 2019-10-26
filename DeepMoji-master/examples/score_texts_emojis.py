@@ -17,7 +17,7 @@ from deepmoji.sentence_tokenizer import SentenceTokenizer
 from deepmoji.model_def import deepmoji_emojis
 from deepmoji.global_variables import PRETRAINED_PATH, VOCAB_PATH
 
-with open("Google_voice_data/j", 'r') as f:
+with open("Google_voice_data/test", 'r') as f:
     voice_data = json.load(f)
 
 script = 'should get the script from json'
@@ -48,8 +48,6 @@ for i in range(min(len(words),len(word_time_stamps))):
         clauses.append(string)
         string = ''
         pos+=1
-
-
 
 
 def top_elements(array, k):
