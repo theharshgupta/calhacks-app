@@ -195,9 +195,8 @@ def get_clause_emotions(filename):
                 pos += 1
             else:
                 string = string + words[i] + ' '
-    return dpeffects,{}
+    return dpeffects
 
 def answer(filename):
-    dpmoji,watson = get_clause_emotions(filename)
-    #watson is just empty dict rn
-    return json.dumps(dpmoji),json.dumps(watson)
+    dpeffects, = get_clause_emotions(filename)
+    return json.dumps(dpeffects)
