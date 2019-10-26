@@ -17,6 +17,7 @@ import csv
 import pdfplumber as plum
 import os, shutil
 from classify import classify
+from gcloud_api import *
 
 '''
 Here we define the download and the upload folder on the server
@@ -140,3 +141,9 @@ def uploaded_file(filename):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+def get_gcloud_data(filename):
+    #saves gcloud data as filename into Google_voice_data folder
+    response = gcloud_speech_to_text(filename)
+
+    

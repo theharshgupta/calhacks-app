@@ -20,6 +20,7 @@ from deepmoji.model_def import deepmoji_emojis
 from deepmoji.global_variables import PRETRAINED_PATH, VOCAB_PATH
 import os
 
+
 current_path = os.getcwd()
 path = current_path[:-24] + "Google_voice_data/anish.wav.json"
 path2 = current_path[:-24] + "audio-analysis/results.txt"
