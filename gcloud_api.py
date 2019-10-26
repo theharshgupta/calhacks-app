@@ -69,3 +69,7 @@ def get_gcloud_timestamps(response_dict):
         timestamps.append((word["start_time"], word["end_time"]))
 
     return timestamps
+
+def save_score_data():
+    subprocess.Popen(["api/python2.7/bin/python", "DeepMoji-master/examples/score_texts_emojis.py"])
+    
