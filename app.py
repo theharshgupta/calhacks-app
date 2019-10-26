@@ -2,7 +2,6 @@ from __future__ import print_function
 import re
 import subprocess
 
-import datefinder
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename
 import datetime
