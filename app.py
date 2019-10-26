@@ -181,7 +181,7 @@ def get_clause_emotions(filename):
         deep_affects_time_stamps.append(tag["end"])
         audio_emotions.append(tag["emotion"])
 
-    clause_and_emotion = {}
+    dpeffects = {}
     string = ''
     pos = 0
     l = min(len(words), len(gtime_stamps))
@@ -190,13 +190,14 @@ def get_clause_emotions(filename):
             t = deep_affects_time_stamps[pos]
             if gtime_stamps[i] >= t or i == (l - 1):
                 string = string + words[i] + '.'
-                clause_and_emotion[string] = deep_affects_time_stamps[pos]
+                dpeffects[string] = deep_affects_time_stamps[pos]
                 string = ''
                 pos += 1
             else:
                 string = string + words[i] + ' '
-    return clause_and_emotion
+    return dpeffects,{}
 
 def answer(filename):
-    dict = get_clause_emotions(filename)
-    return json.dumps(dict)
+    dpmoji,watson = get_clause_emotions(filename)
+    #watson is just empty dict rn
+    return json.dumps(dpmoji),json.dumps(watson)
