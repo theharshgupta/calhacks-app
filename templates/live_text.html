@@ -20,48 +20,27 @@
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
             crossorigin="anonymous"></script>
 
-
-    <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="/" style="padding-left: 10px">
-            Live Feedback Tool
-        </a>
-    </nav>
 </head>
 
 
 <body>
 
-{##}
-{#<div class="row" style="margin-top: 1rem; padding: 40px">#}
-{#    <div class="col-md-6" style="font-size: 14px;">#}
-{#        <div class="card" style="min-height: 26rem;">#}
-{#            <h4 class="card-header" style="text-align: center; font-family:'Century Gothic Pro',serif;">Textual#}
-{#                Sentiment Analysis</h4>#}
-{#            <div class="card-body">#}
-{#                <p class="card-text" id="audioAnalysis"></p>#}
-{#                <form>#}
-{#                        <textarea class="form-control" id="inputTextArea" rows="3"></textarea>#}
-{#                </form>#}
-{#            </div>#}
-{##}
-{##}
-{#        </div>#}
-{#    </div>#}
-{#    <div class="col-md-6" style="font-size: 14px;">#}
-{#        <div class="card" style="min-height: 26rem;">#}
-{#            <h4 class="card-header" style="text-align: center; font-family:'Century Gothic Pro',serif;">Audio#}
-{#                Emotion Analysis</h4>#}
-{#            <div class="card-body">#}
-{#                <p class="card-text" id="audioAnalysis"></p>#}
-{#                <form>#}
-{#                        <textarea class="form-control" id="outputTextArea" rows="3"></textarea>#}
-{#                </form>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
-
-
+<header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand mr-4 font-weight-bold" href="/">live feedback tool</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="{{ url_for('index')}}">hearo</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+<br><br>
 <div class="row" style="margin-top: 1rem; padding: 40px">
     <div class="col-md-6" style="font-size: 14px;">
         <h4 class="card-header" style="text-align: center; font-family:'Century Gothic Pro',serif;">Enter your text ..</h4>
