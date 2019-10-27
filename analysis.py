@@ -3,6 +3,7 @@ from __future__ import print_function
 import json
 
 import requests
+import traceback
 
 from gcloud_api import gcloud_speech_to_text
 
@@ -18,7 +19,7 @@ def process_file(path):
     dpeffects, clauses = get_clause_emotions(path)
     tone_dict = tone_analyzer(clauses)
 
-    return json.dumps([dpeffects,tone_dict])
+    return json.dumps([dpeffects, tone_dict])
     # save_score_data()
     # get_clause_emotions(path=path)
     # the function above returns the clause/emotion dictionary which can be used to display the scripts.
@@ -120,18 +121,21 @@ def tone_analyzer(clauses):
         print("IBM Watson \n\n\n", r.text)
         emotions = []
         mapping = {"joy": "joy", "sadness": "neutral", "fear": "neutral", "disgust": "disgust", "anger": "anger"}
-        for sentence in r.text["sentences_tone"]:
+        x = eval(r.text)
+        watson = {}
+        for sentence in x["sentences_tone"]:
             #above is correct
+            s = sentence["text"]
             emotion = sentence["tones"]
             if emotion:
-                emotion = emotion[0]['tone_name']
-                emotions.append(mapping[emotion])
+                emotion = emotion[0]['tone_id']
+                watson[s] = mapping[emotion]
             else:
-                emotions.append("neutral")
+                watson[s] = "neutral"
             # ex. watson data {"sentences_tone":[{"sentence_id":0,"text":"Ping pong is the best sport in the world.","tones":[{"score":0.822188,"tone_id":"joy","tone_name":"Joy"}]},{"sentence_id":1,"text":"I like Chinese people.","tones":[{"score":0.88939,"tone_id":"tentative","tone_name":"Tentative"}]},{"sentence_id":2,"text":"I fucking hate PG&E they are horrible and they should make changes in their management.","tones":[{"score":0.827514,"tone_id":"anger","tone_name":"Anger"}]},{"sentence_id":3,"text":"This company is bankrupt.","tones":[{"score":0.72178,"tone_id":"sadness","tone_name":"Sadness"}]}]}
-        return emotions
-    except:
-        return False
+        return watson
+    except Exception:
+        return traceback.format_exc()
 
 
 def answer(filename):
