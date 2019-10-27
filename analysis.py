@@ -15,8 +15,10 @@ def process_file(path):
     :param path: path to the audio file
     :return: Nothing
     """
-    emotion_tagging(path)
+    # Deepaffects is API for emotion tagging from the mp3 file
     dpeffects, clauses = get_clause_emotions(path)
+
+    # IBM Watson tone analyzer takes in the clauses
     tone_dict = tone_analyzer(clauses)
 
     return json.dumps({'audio': dpeffects, 'text': tone_dict})
@@ -61,13 +63,15 @@ def emotion_tagging(path):
 
     json_result = [{"end": 3.0, "start": 0.0, "emotion": "neutral"}, {"end": 6.0, "start": 3.0, "emotion": "happy"},
                    {"end": 8.856, "start": 6.0, "emotion": "excited"}]
-    print(json_result)
     return json_result
 
 
 def get_clause_emotions(filename):
     # loads audio file-filename and returns clause_and_emotion dictionary.
+    # The response that we get from Google. It is in form of a dictionary with the timestamps
     gresponse = gcloud_speech_to_text(filename)
+
+    # Calls the DeepAffects API for emotion tagging from the audio
     deepresponse = emotion_tagging(filename)
 
     deep_affects_time_stamps = []

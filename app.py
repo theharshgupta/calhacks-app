@@ -28,15 +28,9 @@ app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 10485750
 
 
-@app.route('/downloads/')
-def downloads():
-    return render_template("downloads.html")
-
-
-@app.route('/file/')
-def return_file():
-    return send_file('downloads/bal.csv',
-                     attachment_filename='bal.csv', as_attachment=True)
+# @app.route('/downloads/')
+# def downloads():
+#     return render_template("downloads.html")
 
 
 @app.route('/', methods=['GET', 'POST'])
