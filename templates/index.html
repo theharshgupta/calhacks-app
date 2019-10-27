@@ -19,7 +19,7 @@
         crossorigin="anonymous"></script>
     <script type="text/javascript">
         var res = null;
-        res = {{result|tojson}};
+        res = {{ result | tojson }};
     </script>
 
     <script src="{{ url_for('static', filename='js/displayAnalysis.js') }}"></script>
@@ -67,17 +67,16 @@
 
         <div class="row" style="margin-top: 1rem;">
             <div class="col-md-6" style="font-size: 14px;">
-              <h4 align="center">Textual Sentiment Analysis</h4>
-                <p id="textAnalysis">
-
-                </p>
+                <div class="card" style="min-height: 6rem;">
+                    <h4 class="card-header" style="text-align: center">Textual Sentiment Analysis</h4>
+                    <p class="card-text" id="textAnalysis"></p>
+                </div>
             </div>
-
             <div class="col-md-6" style="font-size: 14px;">
-              <h4 align="center">Audio Sentiment Analysis</h4>
-                <p id="audioAnalysis">
-
-                </p>
+                <div class="card" style="min-height: 6rem;">
+                    <h4 class="card-header" style="text-align: center">Audio Sentiment Analysis</h4>
+                    <p class="card-text" id="audioAnalysis"></p>
+                </div>
             </div>
         </div>
         <div class="container" style="position: fixed; bottom: 0;">
@@ -85,23 +84,13 @@
                 <div class="col-md-12">
                     <h3 style="text-align: center;">How it Works</h3>
                     <small>First, we convert your audio file into a set of spoken sentences. Then, we run textual
-                        sentiment
-                        analysis on
-                        these sentences to
-                        determine textual emotion behind each sentence. Finally, we do sentiment analysis using just
-                        your
-                        voice
-                        in the
-                        audio file.
-                    We score you in two ways: percentage of sentences for which your voice emotion matches the
-                        text
-                        emotion, and
-                        also a proprietary score that measures how close your emotions were
-                        to the text's emotions. This proprietary score is out of 10,000 with 10,000 being perfectly
-                        matching.
-                        Good luck
-                        practicing! </small>
-                  <br></br>
+                        sentiment analysis on these sentences to determine textual emotion behind each sentence.
+                        Finally, we do sentiment analysis using just your voice in the audio file. We score you in two
+                        ways: percentage of sentences for which your voice emotion matches the text emotion, and also a
+                        proprietary score that measures how close your emotions were to the text's emotions. This
+                        proprietary score is out of 10,000 with 10,000 being perfectly matching. Good luck practicing!
+                    </small>
+                    <br></br>
                 </div>
             </div>
         </div>
