@@ -76,10 +76,11 @@ def process_file(path):
     dpeffects,clauses = get_clause_emotions(path=path)
     tone_dict=tone_analyzer(clauses)
 
-    return render_template('page2.html', dpeffects=dpeffects)
+    return render_template('page2.html', dpeffects=dpeffects,tone_dict=tone_dict)
     # save_score_data()
     # get_clause_emotions(path=path)
     # the function above returns the clause/emotion dictionary which can be used to display the scripts.
+
 
 
 def emptydir():
