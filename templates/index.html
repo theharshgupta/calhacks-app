@@ -21,7 +21,9 @@
         crossorigin="anonymous"></script>
 
     <script src="{{ url_for('static', filename='js/displayAnalysis.js') }}"></script>
-
+    <script type="text/javascript">
+        var data = {{result|tojson}};
+    </script>
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="/">
             <img src="{{ url_for('static', filename='images/logowave.png') }}" width="25" height="25"
