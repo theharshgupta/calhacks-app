@@ -148,6 +148,7 @@ def answer(filename):
 
 audio_dictionary = {'test': ('anger',0.9)}
 text_dictionary = {'test': 'anger'}
+
 def score(audio_dictionary,text_dictionary):
     audio_classes =  list(audio_dictionary.values())
     text_classes = list(text_dictionary.values())
@@ -159,3 +160,29 @@ def score(audio_dictionary,text_dictionary):
         if audio_classes[i] != text_classes[i][0]:
             error+= float(text_classes[i][1])
     return 10000*(1-(float(error) / total_n))
+
+def get_emotion_dictionary(string):
+    def filter_func(c):
+        acceptable = ' @$%&abcdefghijklmnopqrstuvwxyz,.;:1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ()?!-'
+        if c in acceptable:
+            return c
+        else:
+            return ''
+    filtered_string = ''
+    for c in string:
+        if filter_func(c):
+            filtered_string = filtered_string + c
+    clauses = []
+    string = ''
+    for c in filtered_string:
+        string = string + c
+        if c in ',.;:()?!':
+            clauses.append(string)
+            string = ''
+        elif c == ' ':
+            if len(string) > 25:
+                clauses.append(string)
+                string = ''
+    dictionary = tone_analyzer(clauses)
+    #dictionary
+    return dictionary
