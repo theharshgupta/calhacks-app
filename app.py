@@ -97,8 +97,9 @@ def live_text():
 @app.route('/live-sentiment', methods=["POST"])
 def live_sentiment():
     if request.method == 'POST':
-        data = request.json
-    return jsonify(get_emotion_dictionary(data["text"]))
+        data = request.json["text"]
+        print("Request data", data)
+    return jsonify(get_emotion_dictionary(data))
 
 
 if __name__ == '__main__':

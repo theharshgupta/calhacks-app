@@ -20,7 +20,10 @@ function sentiment_request() {
         };
 
         if(data != null) {
-            createTextProfile($("outputAnalysis"), data, encoding);
+            createTextProfile($("#outputAnalysis"), data["d_clause_emotion"], encoding);
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip()
+            })
         }
     }).fail(function(data){
         console.log("error")
@@ -28,17 +31,17 @@ function sentiment_request() {
 }
 
 function createTextProfile(paragraphObj, text, encoding) {
-    var text = "";
+    var sentiment_text = "";
     for (const [key, value] of Object.entries(text)) {
         if (value[0] in encoding) {
-            text += "<span style='color: " + encoding[value[0]] +
+            sentiment_text += "<span style='color: " + encoding[value[0]] +
                 "' data-toggle='tooltip' data-placement='top' title='" + (value[1] * 100).toFixed(2) + "% confidence'>" + key + "</span>";
         } else {
-            text += "<span>" + key + "</span>";
+            sentiment_text += "<span>" + key + "</span>";
         }
     }
 
-    paragraphObj.val(text);
+    paragraphObj.html(sentiment_text);
 }
 
 $(document).ready(function () {
