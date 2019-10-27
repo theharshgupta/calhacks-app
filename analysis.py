@@ -160,6 +160,7 @@ def call_watson(string):
     password = api_key
     watsonUrl = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21'
     headers = {"content-type": "text/plain"}
+    data = string
     try:
         r = requests.post(watsonUrl, auth=(username, password), headers=headers, data=data)
         print("IBM Watson \n\n\n", r.text)
@@ -182,22 +183,13 @@ def score(audio_dictionary,text_dictionary):
 
 def get_emotion_dictionary(string):
     string = string[:-5]
-    def filter_func(c):
-        acceptable = ' @$%&abcdefghijklmnopqrstuvwxyz,.;:1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ()?!-'
-        if c in acceptable:
-            return c
-        else:
-            return ''
     x = call_watson(string)
     if type(x) == dict:
-        filtered_string = ''
-        for c in string:
-            if filter_func(c):
-                filtered_string = filtered_string + c
+        string2 = string[:]
         clauses = []
         string = ''
-        if len(filtered_string) > 70:
-            for c in filtered_string:
+        if len(string2) > 70:
+            for c in string2:
                 string = string + c
                 if c in ',.;:()?!':
                     clauses.append(string)
