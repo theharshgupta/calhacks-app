@@ -45,7 +45,7 @@ def emotion_tagging(path):
 
     headers = {'Content-Type': "application/json"}
 
-    with open("/Audio_files/" + path, 'rb') as fin:
+    with open("Audio_files/" + path, 'rb') as fin:
         audio_content = fin.read()
     audio_decoded = base64.b64encode(audio_content).decode('utf-8')
 
@@ -59,10 +59,9 @@ def emotion_tagging(path):
     data = requests.post(url=url, json=body_json, headers=headers)
     with open('audio-analysis/results.txt', 'w') as output:
         output.write(data.text)
-    json_result = json.dumps(data)
     # json_result = [{"end": 3.0, "start": 0.0, "emotion": "neutral"}, {"end": 6.0, "start": 3.0, "emotion": "happy"},
     #                {"end": 8.856, "start": 6.0, "emotion": "excited"}]
-    return json_result
+    return data.json()
 
 
 def get_clause_emotions(filename):
