@@ -16,7 +16,7 @@ def process_file(path):
     :return: Nothing
     """
     # Deepaffects is API for emotion tagging from the mp3 file
-    dpeffects, clauses = get_clause_emotions(path)
+    dpeffects, sentences,clauses = get_clause_emotions(path)
 
     # IBM Watson tone analyzer takes in the clauses
     tone_dict = tone_analyzer(clauses)
@@ -91,21 +91,26 @@ def get_clause_emotions(filename):
 
     dpeffects = {}
     string = ''
+    s = ''
     pos = 0
     l = min(len(words), len(gtime_stamps))
+    sentences = []
     clauses = []
     for i in range(l):
         if pos < len(deep_affects_time_stamps):
             t = deep_affects_time_stamps[pos]
             if gtime_stamps[i] >= t or i == (l - 1):
+                s = s+words[i] + '.'
                 string = string + words[i]
                 dpeffects[string] = audio_emotions[pos]
-                clauses.append(string)
+                sentences.append(string)
+                clauses.append(s)
                 string = ''
                 pos += 1
             else:
                 string = string + words[i] + ' '
-    return dpeffects, clauses
+
+    return dpeffects, sentences, clauses
 
 
 def tone_analyzer(clauses):
