@@ -32,7 +32,7 @@
 
     <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand" href="/" style="font-family:'Century Gothic Pro';font-size:20px">
-            <img src="{{ url_for('static', filename='images/logowave.png') }}" width="25" height="25"
+            <img src="{{ url_for('static', filename='images/logo.png') }}" width="25" height="25"
                 class="d-inline-block align-top" alt="">
             hearo
         </a>
@@ -46,19 +46,18 @@
             <div class="col-md-12">
                 <form id="audioForm" method=post enctype=multipart/form-data style="margin-top: 30px">
                     <div class="row">
-                        <div class="col-md-3 offset-md-2">
-                            <label for="fileUpload" style="text-align: right; font-size: x-large; width: 100%;">Upload
+                        <div class="col-md-3 offset-md-1" style="padding-left: 10px; padding-right: -5px">
+                            <label for="fileUpload" style="text-align: right; font-size: 25px; width: 100%;">Upload
                                 Audio:</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4" style="padding-left: 20px">
                             <input type="file" name="file" id="fileUpload" multiple class="btn btn-outline-secondary">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 offset-md-5" style="padding-top: 20px">
+                          <div class="col-md-3" style="padding-top: 3px; padding-left: 10px">
                             <input id="audioSubmit" type=submit value="Submit" class="btn btn-primary">
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>

@@ -20,8 +20,8 @@ def process_file(path):
 
     # IBM Watson tone analyzer takes in the clauses
     tone_dict = tone_analyzer(clauses)
-    score = score(dpeffects,tone_dict)
-    return json.dumps({'audio': dpeffects, 'text': tone_dict, 'score': score})
+    score_1 = score(dpeffects, tone_dict)
+    return json.dumps({'audio': dpeffects, 'text': tone_dict, 'score': score_1})
     # save_score_data()
     # get_clause_emotions(path=path)
     # the function above returns the clause/emotion dictionary which can be used to display the scripts.
@@ -128,14 +128,14 @@ def tone_analyzer(clauses):
         x = eval(r.text)
         watson = {}
         for sentence in x["sentences_tone"]:
-            #above is correct
+            # above is correct
             s = sentence["text"]
             emotion = sentence["tones"]
             if emotion:
-                emotion,confidence = emotion[0]['tone_id'],emotion[0]['score']
-                watson[s] = (mapping[emotion],confidence)
+                emotion, confidence = emotion[0]['tone_id'], emotion[0]['score']
+                watson[s] = (mapping[emotion], confidence)
             else:
-                watson[s] = ("neutral",0.5)
+                watson[s] = ("neutral", 0.5)
             # ex. watson data {"sentences_tone":[{"sentence_id":0,"text":"Ping pong is the best sport in the world.","tones":[{"score":0.822188,"tone_id":"joy","tone_name":"Joy"}]},{"sentence_id":1,"text":"I like Chinese people.","tones":[{"score":0.88939,"tone_id":"tentative","tone_name":"Tentative"}]},{"sentence_id":2,"text":"I fucking hate PG&E they are horrible and they should make changes in their management.","tones":[{"score":0.827514,"tone_id":"anger","tone_name":"Anger"}]},{"sentence_id":3,"text":"This company is bankrupt.","tones":[{"score":0.72178,"tone_id":"sadness","tone_name":"Sadness"}]}]}
         return watson
     except Exception:
@@ -146,15 +146,15 @@ def answer(filename):
     dpeffects, = get_clause_emotions(filename)
     return json.dumps(dpeffects)
 
-def score(audio_dictionary,text_dictionary):
-    audio_classes =  list(audio_dictionary.keys())
+
+def score(audio_dictionary, text_dictionary):
+    audio_classes = list(audio_dictionary.keys())
     text_classes = list(text_dictionary.keys())
     a = len(audio_classes)
     t = len(text_classes)
-    total_n = min(a,t)
+    total_n = min(a, t)
     error = 0
-    if a <= t:
-        for i in range(total_n):
-            if audio_classes[i] != text_classes[i]:
-                error+= audio_classes[i][1]
-    return 10000*(1-(float(error) / total_n))
+    for i in range(total_n):
+        if audio_classes[i] != text_classes[i]:
+            error += audio_classes[i][1]
+    return 10000 * (1 - (float(error) / total_n))
