@@ -133,7 +133,7 @@ def get_audio_annotations(clauses, audio_emotions):
     audio_annotations = {}
     for i in range(min(len(clauses), len(audio_emotions))):
         audio_annotations[clauses[i]] = audio_emotions[i]
-    filename = current_path+'audio_annotations.json'
+    filename = current_path + 'audio_annotations.json'
     datastore = audio_annotations
     with open(filename, 'w') as f:
             json.dump(datastore, f)
