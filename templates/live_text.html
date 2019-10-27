@@ -33,13 +33,52 @@
 
 <body>
 
-<form>
-  <div class="form-group" style="padding: 50px">
-    <label for="exampleFormControlTextarea1">Example textarea</label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-  </div>
-</form>
- <div class="container" style="position: fixed; bottom: 0;">
+{##}
+{#<div class="row" style="margin-top: 1rem; padding: 40px">#}
+{#    <div class="col-md-6" style="font-size: 14px;">#}
+{#        <div class="card" style="min-height: 26rem;">#}
+{#            <h4 class="card-header" style="text-align: center; font-family:'Century Gothic Pro',serif;">Textual#}
+{#                Sentiment Analysis</h4>#}
+{#            <div class="card-body">#}
+{#                <p class="card-text" id="audioAnalysis"></p>#}
+{#                <form>#}
+{#                        <textarea class="form-control" id="inputTextArea" rows="3"></textarea>#}
+{#                </form>#}
+{#            </div>#}
+{##}
+{##}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="col-md-6" style="font-size: 14px;">#}
+{#        <div class="card" style="min-height: 26rem;">#}
+{#            <h4 class="card-header" style="text-align: center; font-family:'Century Gothic Pro',serif;">Audio#}
+{#                Emotion Analysis</h4>#}
+{#            <div class="card-body">#}
+{#                <p class="card-text" id="audioAnalysis"></p>#}
+{#                <form>#}
+{#                        <textarea class="form-control" id="outputTextArea" rows="3"></textarea>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
+
+<div class="row" style="margin-top: 1rem; padding: 40px">
+    <div class="col-md-6" style="font-size: 14px;">
+        <h4 class="card-header" style="text-align: center; font-family:'Century Gothic Pro',serif;">Enter your text ..</h4>
+        <form>
+            <textarea class="form-control" id="outputTextArea" rows="3"></textarea>
+        </form>
+    </div>
+    <div class="col-md-6" style="font-size: 14px;">
+        <h4 class="card-header" style="text-align: center; font-family:'Century Gothic Pro',serif;">Feedback</h4>
+        <p></p>
+    </div>
+</div>
+
+<div class="container" style="margin-top: 1rem;">
+    <div class="container" style="position: fixed; bottom: 0; padding: 30px">
         <div class="row">
             <div class="col-md-12">
                 <h3 style="text-align: center;">How it Works</h3>
@@ -50,7 +89,7 @@
             </div>
         </div>
     </div>
-
+</div>
 </body>
 
 </html>
