@@ -25,7 +25,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 
 # limit upload size upto 100mb
-app.config['MAX_CONTENT_LENGTH'] = 150 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 10485750
 
 
 @app.route('/downloads/')
@@ -59,8 +59,8 @@ def index():
                 alpha = process_file(filename)
                 return render_template('index.html', result=alpha)
                 # uploaded_file(filename=filename)
-        return render_template('index.html')
-    return render_template('index.html')
+        return render_template('index.html', result="")
+    return render_template('index.html', result="")
 
 
 @app.route('/process/<path>', methods=["GET"])
