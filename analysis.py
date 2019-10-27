@@ -126,6 +126,7 @@ def tone_analyzer(clauses):
         emotions = []
         audio_emotions = {"joy", "disgust", "anger","happiness"}
         x = eval(r.text)
+        print(x)
         watson = {}
         for sentence in x["sentences_tone"]:
             #above is correct
@@ -195,21 +196,24 @@ def get_emotion_dictionary(string):
             filtered_string = filtered_string + c
     clauses = []
     string = ''
-    for c in filtered_string:
-        string = string + c
-        if c in ',.;:()?!':
-            clauses.append(string)
-            string = ''
-        elif c == ' ':
-            if len(string) > 25:
+    if len(filtered_string) > 70:
+        for c in filtered_string:
+            string = string + c
+            if c in ',.;:()?!':
                 clauses.append(string)
                 string = ''
-    d_clause_emotion_pairs = tone_analyzer(clauses)
-    document_emotions = {}
-    if type(x) == dict:
-        document_emotions['emotion1'] = (x["document_tone"]["tones"][0]["tone_id"],x["document_tone"]["tones"][0]["score"])
-        document_emotions['emotion1'] = (x["document_tone"]["tones"][1]["tone_id"],x["document_tone"]["tones"][1]["score"])
-    #document emotions has two keys: 'emotion1','emotion2', corresponding to the top two emotions in the overall
-    #document respectively. These keys each point to a value that is a tuple: (tone_id,score). Score means certainty
-    dictionary = {'d_clause_emotion': d_clause_emotion_pairs,'overall_emotions': document_emotions}
-    return dictionary
+            elif c == ' ':
+                if len(string) > 25:
+                    clauses.append(string)
+                    string = ''
+        d_clause_emotion_pairs = tone_analyzer(clauses)
+        document_emotions = {}
+        if type(x) == dict:
+            document_emotions['emotion1'] = (x["document_tone"]["tones"][0]["tone_id"],x["document_tone"]["tones"][0]["score"])
+            document_emotions['emotion1'] = (x["document_tone"]["tones"][1]["tone_id"],x["document_tone"]["tones"][1]["score"])
+        #document emotions has two keys: 'emotion1','emotion2', corresponding to the top two emotions in the overall
+        #document respectively. These keys each point to a value that is a tuple: (tone_id,score). Score means certainty
+        dictionary = {'d_clause_emotion': d_clause_emotion_pairs,'overall_emotions': document_emotions}
+        #should be updated to to render_template?
+        return dictionary
+    #this may return nothing if the string input is too short.
