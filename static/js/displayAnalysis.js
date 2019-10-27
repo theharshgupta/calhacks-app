@@ -1,21 +1,11 @@
-$(document).ready(function () {
-    $("$audioSubmit").submit(function () {
-        var file = new FormData($("#audioForm"))
-        $.ajax({
-            method: "POST",
-            url: window.location.href,
-            data: file,
-            dataType: "json",
-            success: function(data) {
-                console.log(data);
-                createWordProfile($("#textAnalysis"), data[1]);
-                createWordProfile($("audioAnalysis"), data[0]);
-            },
-            error: function(error) {
-                console.log(error)
-            }
-        });
-    });
+$(document).ready(function () {    
+    if(data) {
+        console.log(data);
+        createWordProfile($("#textAnalysis"), data[1]);
+        createWordProfile($("#audioAnalysis"), data[0]);
+    } else {
+        console.log("Error")
+    }
 });
 
 function createWordProfile(paragraphObj, text) {

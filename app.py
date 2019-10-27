@@ -15,7 +15,7 @@ UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/uploads/'
 DOWNLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/downloads/'
 
 # The allowed extensions that can be uploaded on the webpage
-ALLOWED_EXTENSIONS = {'pdf', 'csv', 'mp3'}
+ALLOWED_EXTENSIONS = {'flac', 'wav', 'mp3'}
 
 # THIS IS A TEST FOR GITHUB
 
@@ -56,9 +56,10 @@ def index():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
+                alpha = process_file(filename)
+                return render_template('index.html', result=alpha)
                 # uploaded_file(filename=filename)
-        return process_file(path=os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return render_template('index.html')
     return render_template('index.html')
 
 
