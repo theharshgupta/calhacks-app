@@ -51,7 +51,7 @@ def index():
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 alpha = process_file(filename)
-                return render_template('index.html', result=alpha)
+                return render_template('index.html', result=alpha, score=alpha['score'])
                 # uploaded_file(filename=filename)
         return render_template('index.html', result="")
     return render_template('index.html', result="")
