@@ -129,9 +129,10 @@ def tone_analyzer(clauses):
             emotion = sentence["tones"]
             if emotion:
                 emotion = emotion[0]['tone_id']
-                watson[s] = mapping[emotion]
+                confidence = emotion[0]['score']
+                watson[s] = (mapping[emotion],confidence)
             else:
-                watson[s] = "neutral"
+                watson[s] = ("neutral",0.5)
             # ex. watson data {"sentences_tone":[{"sentence_id":0,"text":"Ping pong is the best sport in the world.","tones":[{"score":0.822188,"tone_id":"joy","tone_name":"Joy"}]},{"sentence_id":1,"text":"I like Chinese people.","tones":[{"score":0.88939,"tone_id":"tentative","tone_name":"Tentative"}]},{"sentence_id":2,"text":"I fucking hate PG&E they are horrible and they should make changes in their management.","tones":[{"score":0.827514,"tone_id":"anger","tone_name":"Anger"}]},{"sentence_id":3,"text":"This company is bankrupt.","tones":[{"score":0.72178,"tone_id":"sadness","tone_name":"Sadness"}]}]}
         return watson
     except Exception:
@@ -141,3 +142,6 @@ def tone_analyzer(clauses):
 def answer(filename):
     dpeffects, = get_clause_emotions(filename)
     return json.dumps(dpeffects)
+
+def score(audio_dictionary,text_dictionary):
+    for
