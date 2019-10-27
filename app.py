@@ -73,9 +73,10 @@ def process_file(path):
     :return: Nothing
     """
     emotion_tagging(path=path)
-    save_score_data()
-    get_clause_emotions(path=path)
-    #the function above returns the clause/emotion dictionary which can be used to display the scripts.
+    tone_analyzer()
+    # save_score_data()
+    # get_clause_emotions(path=path)
+    # the function above returns the clause/emotion dictionary which can be used to display the scripts.
 
 
 def emptydir():
@@ -162,7 +163,6 @@ def get_clause_emotions(filename):
     words = []
 
     for word in google_words:
-
         words.append(word["word"])
         gtime_stamps.append(float(word['end_time']) / 1000)
 
@@ -186,6 +186,7 @@ def get_clause_emotions(filename):
                 string = string + words[i] + ' '
     return dpeffects
 
+
 def answer(filename):
     dpeffects, = get_clause_emotions(filename)
     return json.dumps(dpeffects)
@@ -194,26 +195,16 @@ def answer(filename):
 def tone_analyzer():
     # API KEY rNiB7aYI-pVZQ_6I-U-D_avkVNsOUUYMf9n5dXOhrjHc
     # https://gateway.watsonplatform.net/tone-analyzer/api
+    api_key = "rNiB7aYI-pVZQ_6I-U-D_avkVNsOUUYMf9n5dXOhrjHc"
 
-    url = "https://proxy.api.deepaffects.com/audio/generic/api/v2/sync/recognise_emotion?apikey" \
-          "=7h1YbhaMje9IBTrUTDGNa8KGABD1n9cn"
-
-    headers = {'Content-Type': "application/json"}
-
-    # with open(path, 'rb') as fin:
-    #     audio_content = fin.read()
-    # audio_decoded = base64.b64encode(audio_content).decode('utf-8')
-
-    body_json = {"content": "12",
-                 "encoding": "MPEG Audio",
-                 "language_code": "en-US",
-                 "sample_rate": 48000}
-
-    """
-    curl -X GET -u "apikey:rNiB7aYI-pVZQ_6I-U-D_avkVNsOUUYMf9n5dXOhrjHchttps://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21
-    &text=Team%2C%20I%20know%20that%20times%20are%20tough%21%20Product%20sales%20have
-    %20been%20disappointing%20for%20the%20past%20three%20quarters.%20We%20have%20a%20
-    competitive%20product%2C%20but%20we%20need%20to%20do%20a%20better%20job%20of%20
-    selling%20it%21"
-    """
-    data = requests.post(url=url, json=body_json, headers=headers)
+    username = 'apikey'
+    password = api_key
+    watsonUrl = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21'
+    headers = {"content-type": "text/plain"}
+    data = "Ping pong is the best sport in the world. I like Chinese people. I fucking hate PG&E they are horrible and " \
+           "they should make changes in their management. This company is bankrupt."
+    try:
+        r = requests.post(watsonUrl, auth=(username, password), headers=headers, data=data)
+        print("IBM Watson \n\n\n", r.text)
+    except:
+        return False
