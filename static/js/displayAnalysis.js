@@ -1,6 +1,6 @@
-$(document).ready(function () {  
-    if(res != null) {
-        data = JSON.parse(res);  
+$(document).ready(function () {
+    if (res != null) {
+        data = JSON.parse(res);
         var encoding = {
             "anger": "#ad0505",
             "joy": "#ffd500",
@@ -20,8 +20,9 @@ $(document).ready(function () {
 function createTextProfile(paragraphObj, text, encoding) {
     var html = "";
     for (const [key, value] of Object.entries(text)) {
-        if(value[0] in encoding) {
-            html += "<span style=\"color: " + encoding[value[0]] + "\">" + key + "</span>";
+        if (value[0] in encoding) {
+            html += "<span style='color: " + encoding[value[0]] + 
+            "' data-toggle='tooltip' data-placement='top' title='" + (value[1] * 100).toFixed(2) + "% confidence'>" + key + "</span>";
         } else {
             html += "<span>" + key + "</span>";
         }
@@ -33,8 +34,10 @@ function createTextProfile(paragraphObj, text, encoding) {
 function createAudioProfile(paragraphObj, text, encoding) {
     var html = "";
     for (const [key, value] of Object.entries(text)) {
-        if(value in encoding) {
-            html += "<span style=\"color: " + encoding[value] + "\">" + key + "</span>";
+        if (value in encoding) {
+            html += "<span style='color: " + encoding[value] + "' " +
+                "data-toggle='tooltip' data-placement='top' title='Emotion: " + value + "'>"
+                + key + "</span > ";
         } else {
             html += "<span>" + key + "</span>";
         }
