@@ -26,6 +26,7 @@ app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 
 # limit upload size upto 100mb
 app.config['MAX_CONTENT_LENGTH'] = 10485750
+app.config['JSON_SORT_KEYS'] = False
 
 
 # @app.route('/downloads/')

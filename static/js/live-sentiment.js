@@ -24,6 +24,12 @@ function sentiment_request() {
             $(function () {
                 $('[data-toggle="tooltip"]').tooltip()
             })
+
+            if(data["overall_emotions"]["emotion1"]) {
+                emotion = data["overall_emotions"]["emotion1"];
+                $("#overall-emotion").html("Overall Emotion: " + emotion[0] + " (" + (emotion[1] * 100).toFixed(2) + "% Confident)");
+                $("#overall-emotion").show();
+            }
         }
     }).fail(function(data){
         console.log("error")

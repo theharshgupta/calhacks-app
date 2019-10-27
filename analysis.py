@@ -16,6 +16,7 @@ def process_file(path):
     :return: Nothing
     """
     # Deepaffects is API for emotion tagging from the mp3 file
+    print(path)
     dpeffects, clauses = get_clause_emotions(path)
 
     # IBM Watson tone analyzer takes in the clauses
@@ -44,7 +45,7 @@ def emotion_tagging(path):
 
     headers = {'Content-Type': "application/json"}
 
-    with open(path, 'rb') as fin:
+    with open("/Audio_files/" + path, 'rb') as fin:
         audio_content = fin.read()
     audio_decoded = base64.b64encode(audio_content).decode('utf-8')
 
@@ -58,8 +59,7 @@ def emotion_tagging(path):
     data = requests.post(url=url, json=body_json, headers=headers)
     with open('audio-analysis/results.txt', 'w') as output:
         output.write(data.text)
-    print(data.text)
-
+    json_result = json.dumps(data)
     # json_result = [{"end": 3.0, "start": 0.0, "emotion": "neutral"}, {"end": 6.0, "start": 3.0, "emotion": "happy"},
     #                {"end": 8.856, "start": 6.0, "emotion": "excited"}]
     return json_result
@@ -202,6 +202,7 @@ def get_emotion_dictionary(string):
                         clauses.append(string)
                         string = ''
             d_clause_emotion_pairs = tone_analyzer(clauses)
+            print("\n\n\n\nTone Dict ", d_clause_emotion_pairs)
             document_emotions = {}
             if type(x) == dict:
                 document_emotions['emotion1'] = (
@@ -212,6 +213,6 @@ def get_emotion_dictionary(string):
             # document respectively. These keys each point to a value that is a tuple: (tone_id,score). Score means certainty
             dictionary = {'d_clause_emotion': d_clause_emotion_pairs, 'overall_emotions': document_emotions}
             # should be updated to to render_template?
-            print("Final Dict", dictionary)
+            print("\n\n\nFinal Dict ", dictionary)
             return dictionary
     # this may return nothing if the string input is too short.
