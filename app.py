@@ -45,10 +45,6 @@ def index():
     This the the landing page. It includes an upload and submit button
     :return:
     """
-    if os.path.isfile('downloads/out.csv'):
-        os.remove('downloads/out.csv')
-    if os.path.isfile('downloads/bal.csv'):
-        os.remove('downloads/bal.csv')
 
     if request.method == 'POST':
         listOfFiles = request.files.getlist("file")
