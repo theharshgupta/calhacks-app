@@ -98,7 +98,7 @@ def live_text():
 def live_sentiment():
     if request.method == 'POST':
         data = request.json
-    return jsonify(data)
+    return jsonify(get_emotion_dictionary(data["text"]))
 
 
 if __name__ == '__main__':

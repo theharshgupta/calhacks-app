@@ -10,7 +10,6 @@ function sentiment_request() {
             "text": $("#input-text").val()
         })
     }).done(function(data) {
-        console.log(JSON.stringify(data));
         var encoding = {
             "anger": "#ad0505",
             "joy": "#0a8c24",
@@ -20,7 +19,9 @@ function sentiment_request() {
             "distgust": "#2b0505"
         };
 
-        createTextProfile($("outputAnalysis"), data, encoding);
+        if(data != null) {
+            createTextProfile($("outputAnalysis"), data, encoding);
+        }
     }).fail(function(data){
         console.log("error")
     });
