@@ -99,18 +99,16 @@ def get_clause_emotions(filename):
     for i in range(l):
         if pos < len(deep_affects_time_stamps):
             t = deep_affects_time_stamps[pos]
+            s = s+words[i]
+            string = string + words[i]
             if gtime_stamps[i] >= t or i == (l - 1):
-                s = s+words[i] + '.'
-                string = string + words[i]
+                s = s + '.'
                 dpeffects[s] = audio_emotions[pos]
                 sentences.append(string)
                 clauses.append(s)
                 s = ' '
                 string = ' '
                 pos += 1
-            else:
-                string = string + words[i] + ' '
-
     return dpeffects, sentences, clauses
 
 
