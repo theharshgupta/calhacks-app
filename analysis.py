@@ -1,7 +1,7 @@
 from __future__ import print_function
 
 import json
-
+import base64
 import requests
 import traceback
 
@@ -38,7 +38,7 @@ def emotion_tagging(path):
     :return: json response from the API
     """
     # Just for testing, we are commenting the API Calls and just returning the API Response as JSON
-    """
+
     url = "https://proxy.api.deepaffects.com/audio/generic/api/v2/sync/recognise_emotion?apikey" \
           "=7h1YbhaMje9IBTrUTDGNa8KGABD1n9cn"
 
@@ -58,11 +58,11 @@ def emotion_tagging(path):
     data = requests.post(url=url, json=body_json, headers=headers)
     with open('audio-analysis/results.txt', 'w') as output:
         output.write(data.text)
-    pprint(data.text)
-    """
+    print(data.text)
 
-    json_result = [{"end": 3.0, "start": 0.0, "emotion": "neutral"}, {"end": 6.0, "start": 3.0, "emotion": "happy"},
-                   {"end": 8.856, "start": 6.0, "emotion": "excited"}]
+
+    # json_result = [{"end": 3.0, "start": 0.0, "emotion": "neutral"}, {"end": 6.0, "start": 3.0, "emotion": "happy"},
+    #                {"end": 8.856, "start": 6.0, "emotion": "excited"}]
     return json_result
 
 
