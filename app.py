@@ -192,7 +192,7 @@ def answer(filename):
     return json.dumps(dpeffects)
 
 
-def tone_analyzer():
+def tone_analyzer(clauses):
     # API KEY rNiB7aYI-pVZQ_6I-U-D_avkVNsOUUYMf9n5dXOhrjHc
     # https://gateway.watsonplatform.net/tone-analyzer/api
     api_key = "rNiB7aYI-pVZQ_6I-U-D_avkVNsOUUYMf9n5dXOhrjHc"
@@ -201,8 +201,9 @@ def tone_analyzer():
     password = api_key
     watsonUrl = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21'
     headers = {"content-type": "text/plain"}
-    data = "Ping pong is the best sport in the world. I like Chinese people. I fucking hate PG&E they are horrible and " \
-           "they should make changes in their management. This company is bankrupt."
+    data = ''
+    for clause in clauses:
+        data  = data + clause + ' '
     try:
         r = requests.post(watsonUrl, auth=(username, password), headers=headers, data=data)
         print("IBM Watson \n\n\n", r.text)
