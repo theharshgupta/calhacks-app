@@ -16,12 +16,12 @@ def process_file(path):
     :return: Nothing
     """
     # Deepaffects is API for emotion tagging from the mp3 file
-    dpeffects, sentences,clauses = get_clause_emotions(path)
+    dpeffects, clauses = get_clause_emotions(path)
 
     # IBM Watson tone analyzer takes in the clauses
     tone_dict = tone_analyzer(clauses)
-    # score_1 = score(dpeffects,tone_dict)
-    return json.dumps({'audio': dpeffects, 'text': tone_dict})
+    score_1 = score(dpeffects,tone_dict)
+    return json.dumps({'audio': dpeffects, 'text': tone_dict, 'score': score_1})
     # save_score_data()
     # get_clause_emotions(path=path)
     # the function above returns the clause/emotion dictionary which can be used to display the scripts.
@@ -91,25 +91,21 @@ def get_clause_emotions(filename):
 
     dpeffects = {}
     string = ''
-    s = ''
     pos = 0
     l = min(len(words), len(gtime_stamps))
-    sentences = []
     clauses = []
     for i in range(l):
         if pos < len(deep_affects_time_stamps):
             t = deep_affects_time_stamps[pos]
-            s = s+words[i]
-            string = string + words[i]
             if gtime_stamps[i] >= t or i == (l - 1):
-                s = s + '.'
-                dpeffects[s] = audio_emotions[pos]
-                sentences.append(string)
-                clauses.append(s)
-                s = ' '
-                string = ' '
+                string = string + words[i]
+                dpeffects[string] = audio_emotions[pos]
+                clauses.append(string)
+                string = ''
                 pos += 1
-    return dpeffects, sentences, clauses
+            else:
+                string = string + words[i] + ' '
+    return dpeffects, clauses
 
 
 def tone_analyzer(clauses):
@@ -134,7 +130,6 @@ def tone_analyzer(clauses):
         for sentence in x["sentences_tone"]:
             #above is correct
             s = sentence["text"]
-            s = s[:-1]
             emotion = sentence["tones"]
             if emotion:
                 emotion,confidence = emotion[0]['tone_id'],emotion[0]['score']
