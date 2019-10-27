@@ -44,10 +44,6 @@ def index():
     This the the landing page. It includes an upload and submit button
     :return:
     """
-    if os.path.isfile('downloads/out.csv'):
-        os.remove('downloads/out.csv')
-    if os.path.isfile('downloads/bal.csv'):
-        os.remove('downloads/bal.csv')
 
     if request.method == 'POST':
         listOfFiles = request.files.getlist("file")
@@ -72,7 +68,6 @@ def process_file(path):
     :param path: path to the audio file
     :return: Nothing
     """
-    emotion_tagging(path=path)
     dpeffects,clauses = get_clause_emotions(path=path)
     tone_dict=tone_analyzer(clauses)
 
@@ -154,10 +149,10 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-def get_clause_emotions(filename):
+def get_clause_emotions(path):
     # loads audio file-filename and returns clause_and_emotion dictionary.
-    gresponse = gcloud_speech_to_text(filename)
-    deepresponse = emotion_tagging(filename)
+    gresponse = gcloud_speech_to_text(path)
+    deepresponse = emotion_tagging(path)
 
     deep_affects_time_stamps = []
     audio_emotions = []
@@ -173,7 +168,7 @@ def get_clause_emotions(filename):
     for tag in deepresponse:
         deep_affects_time_stamps.append(tag["end"])
         audio_emotions.append(tag["emotion"])
-
+    clauses = []
     dpeffects = {}
     string = ''
     pos = 0
@@ -184,11 +179,12 @@ def get_clause_emotions(filename):
             if gtime_stamps[i] >= t or i == (l - 1):
                 string = string + words[i] + '.'
                 dpeffects[string] = deep_affects_time_stamps[pos]
+                clauses.append(string)
                 string = ''
                 pos += 1
             else:
                 string = string + words[i] + ' '
-    return dpeffects,clauses
+    return dpeffects, clauses
 
 
 def answer(filename):
