@@ -144,4 +144,14 @@ def answer(filename):
     return json.dumps(dpeffects)
 
 def score(audio_dictionary,text_dictionary):
-    for
+    audio_classes =  audio_dictionary.values()
+    text_classes = text_dictionary.values()
+    a = len(audio_classes)
+    t = len(text_classes)
+    total_n = min(a,t)
+    error = 0
+    if a <= t:
+        for i in len(total_n):
+            if audio_classes[i][0] != text_classes[i]:
+                error+= audio_classes[i][1]
+    return float(error) / total_n
