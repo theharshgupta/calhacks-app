@@ -102,10 +102,11 @@ def get_clause_emotions(filename):
             if gtime_stamps[i] >= t or i == (l - 1):
                 s = s+words[i] + '.'
                 string = string + words[i]
-                dpeffects[string] = audio_emotions[pos]
+                dpeffects[s] = audio_emotions[pos]
                 sentences.append(string)
                 clauses.append(s)
-                string = ''
+                s = ' '
+                string = ' '
                 pos += 1
             else:
                 string = string + words[i] + ' '
@@ -135,6 +136,7 @@ def tone_analyzer(clauses):
         for sentence in x["sentences_tone"]:
             #above is correct
             s = sentence["text"]
+            s = s[:-1]
             emotion = sentence["tones"]
             if emotion:
                 emotion,confidence = emotion[0]['tone_id'],emotion[0]['score']
