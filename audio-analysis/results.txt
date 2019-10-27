@@ -1,1 +1,1 @@
-[{"end": 3.0, "start": 0.0, "emotion": "neutral"}, {"end": 6.0, "start": 3.0, "emotion": "happy"}, {"end": 8.856, "start": 6.0, "emotion": "excited"}]
+[{"end": 3.0, "start": 0.0, "emotion": "excited"}, {"end": 3.648, "start": 3.0, "emotion": "neutral"}]
