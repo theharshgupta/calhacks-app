@@ -11,7 +11,7 @@ from analysis import *
 '''
 Here we define the download and the upload folder on the server
 '''
-UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/uploads/'
+UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/Audio_files/'
 DOWNLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + '/downloads/'
 
 # The allowed extensions that can be uploaded on the webpage
