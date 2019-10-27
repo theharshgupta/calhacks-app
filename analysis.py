@@ -16,11 +16,11 @@ def process_file(path):
     :return: Nothing
     """
     # Deepaffects is API for emotion tagging from the mp3 file
-    dpeffects, clauses = get_clause_emotions(path)
+    dpeffects, sentences,clauses = get_clause_emotions(path)
 
     # IBM Watson tone analyzer takes in the clauses
     tone_dict = tone_analyzer(clauses)
-    score_1 = score(dpeffects, tone_dict)
+    score_1 = score(dpeffects,tone_dict)
     return json.dumps({'audio': dpeffects, 'text': tone_dict, 'score': score_1})
     # save_score_data()
     # get_clause_emotions(path=path)
@@ -91,21 +91,27 @@ def get_clause_emotions(filename):
 
     dpeffects = {}
     string = ''
+    s = ''
     pos = 0
     l = min(len(words), len(gtime_stamps))
+    sentences = []
     clauses = []
     for i in range(l):
         if pos < len(deep_affects_time_stamps):
             t = deep_affects_time_stamps[pos]
             if gtime_stamps[i] >= t or i == (l - 1):
+                s = s+words[i] + '.'
                 string = string + words[i]
-                dpeffects[string] = audio_emotions[pos]
-                clauses.append(string)
-                string = ''
+                dpeffects[s] = audio_emotions[pos]
+                sentences.append(string)
+                clauses.append(s)
+                s = ' '
+                string = ' '
                 pos += 1
             else:
                 string = string + words[i] + ' '
-    return dpeffects, clauses
+
+    return dpeffects, sentences, clauses
 
 
 def tone_analyzer(clauses):
@@ -128,14 +134,15 @@ def tone_analyzer(clauses):
         x = eval(r.text)
         watson = {}
         for sentence in x["sentences_tone"]:
-            # above is correct
+            #above is correct
             s = sentence["text"]
+            s = s[:-1]
             emotion = sentence["tones"]
             if emotion:
-                emotion, confidence = emotion[0]['tone_id'], emotion[0]['score']
-                watson[s] = (mapping[emotion], confidence)
+                emotion,confidence = emotion[0]['tone_id'],emotion[0]['score']
+                watson[s] = (mapping[emotion],confidence)
             else:
-                watson[s] = ("neutral", 0.5)
+                watson[s] = ("neutral",0.5)
             # ex. watson data {"sentences_tone":[{"sentence_id":0,"text":"Ping pong is the best sport in the world.","tones":[{"score":0.822188,"tone_id":"joy","tone_name":"Joy"}]},{"sentence_id":1,"text":"I like Chinese people.","tones":[{"score":0.88939,"tone_id":"tentative","tone_name":"Tentative"}]},{"sentence_id":2,"text":"I fucking hate PG&E they are horrible and they should make changes in their management.","tones":[{"score":0.827514,"tone_id":"anger","tone_name":"Anger"}]},{"sentence_id":3,"text":"This company is bankrupt.","tones":[{"score":0.72178,"tone_id":"sadness","tone_name":"Sadness"}]}]}
         return watson
     except Exception:
@@ -146,15 +153,16 @@ def answer(filename):
     dpeffects, = get_clause_emotions(filename)
     return json.dumps(dpeffects)
 
-
-def score(audio_dictionary, text_dictionary):
-    audio_classes = list(audio_dictionary.keys())
-    text_classes = list(text_dictionary.keys())
+audio_dictionary = {'test': ('anger',0.9)}
+text_dictionary = {'test': 'anger'}
+def score(audio_dictionary,text_dictionary):
+    audio_classes =  list(audio_dictionary.values())
+    text_classes = list(text_dictionary.values())
     a = len(audio_classes)
     t = len(text_classes)
-    total_n = min(a, t)
+    total_n = min(a,t)
     error = 0
     for i in range(total_n):
-        if audio_classes[i] != text_classes[i]:
-            error += audio_classes[i][1]
-    return 10000 * (1 - (float(error) / total_n))
+        if audio_classes[i] != text_classes[i][0]:
+            error+= float(text_classes[i][1])
+    return 10000*(1-(float(error) / total_n))

@@ -5,21 +5,20 @@
     <meta charset="UTF-8">
     <title>hearo</title>
     <meta name="viewport" content="width = device-width, initial-scale=1">
-    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <script src="https://code.jquery.com/jquery-3.4.1.js"
-        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <script type="text/javascript">
         var res = null;
-        res = {{result|tojson}};
+        res = {{ result | tojson }};
     </script>
 
     <script src="{{ url_for('static', filename='js/displayAnalysis.js') }}"></script>
@@ -66,17 +65,20 @@
 
         <div class="row" style="margin-top: 1rem;">
             <div class="col-md-6" style="font-size: 14px;">
-              <h4 align="center">Textual Sentiment Analysis</h4>
-                <p id="textAnalysis">
-
-                </p>
+                <div class="card" style="min-height: 26rem;">
+                    <h4 class="card-header" style="text-align: center;">Textual Sentiment Analysis</h4>
+                    <div class="card-body">
+                        <p class="card-text" id="textAnalysis"></p>
+                    </div>
+                </div>
             </div>
-
             <div class="col-md-6" style="font-size: 14px;">
-              <h4 align="center">Audio Sentiment Analysis</h4>
-                <p id="audioAnalysis">
-
-                </p>
+                <div class="card" style="min-height: 26rem;">
+                    <h4 class="card-header" style="text-align: center;">Audio Sentiment Analysis</h4>
+                    <div class="card-body">
+                        <p class="card-text" id="audioAnalysis"></p>
+                    </div>
+                </div>
             </div>
             
         </div>
@@ -85,23 +87,13 @@
                 <div class="col-md-12">
                     <h3 style="text-align: center;">How it Works</h3>
                     <small>First, we convert your audio file into a set of spoken sentences. Then, we run textual
-                        sentiment
-                        analysis on
-                        these sentences to
-                        determine textual emotion behind each sentence. Finally, we do sentiment analysis using just
-                        your
-                        voice
-                        in the
-                        audio file.
-                    We score you in two ways: percentage of sentences for which your voice emotion matches the
-                        text
-                        emotion, and
-                        also a proprietary score that measures how close your emotions were
-                        to the text's emotions. This proprietary score is out of 10,000 with 10,000 being perfectly
-                        matching.
-                        Good luck
-                        practicing! </small>
-                  <br></br>
+                        sentiment analysis on these sentences to determine textual emotion behind each sentence.
+                        Finally, we do sentiment analysis using just your voice in the audio file. We score you in two
+                        ways: percentage of sentences for which your voice emotion matches the text emotion, and also a
+                        proprietary score that measures how close your emotions were to the text's emotions. This
+                        proprietary score is out of 10,000 with 10,000 being perfectly matching. Good luck practicing!
+                    </small>
+                    <br></br>
                 </div>
             </div>
         </div>
