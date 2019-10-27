@@ -56,10 +56,9 @@ def index():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                process_file(path=os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
                 # uploaded_file(filename=filename)
-        return render_template('downloads.html')
+        return process_file(path=os.path.join(app.config['UPLOAD_FOLDER'], filename))
     return render_template('index.html')
 
 
