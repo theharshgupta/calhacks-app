@@ -130,7 +130,7 @@ def tone_analyzer(clauses):
         watson = {}
         for sentence in x["sentences_tone"]:
             # above is correct
-            s = sentence["text"]
+            s = sentence["text"][:-1]
             emotion = sentence["tones"]
             if emotion:
                 emotion, confidence = emotion[0]['tone_id'], emotion[0]['score']
