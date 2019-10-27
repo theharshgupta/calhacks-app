@@ -20,8 +20,8 @@ def process_file(path):
 
     # IBM Watson tone analyzer takes in the clauses
     tone_dict = tone_analyzer(clauses)
-    score_1 = score(dpeffects,tone_dict)
-    return json.dumps({'audio': dpeffects, 'text': tone_dict, 'score': score_1})
+    # score_1 = score(dpeffects,tone_dict)
+    return json.dumps({'audio': dpeffects, 'text': tone_dict})
     # save_score_data()
     # get_clause_emotions(path=path)
     # the function above returns the clause/emotion dictionary which can be used to display the scripts.
