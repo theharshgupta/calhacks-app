@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Audio Analysis</title>
@@ -9,46 +10,75 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
 </head>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+    integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
 <header>
     <nav class="navbar navbar-light bg-light">
         <a class="navbar-brand" href="/">
             <img src="{{ url_for('static', filename='images/logowave.png') }}" width="25" height="25"
-                 class="d-inline-block align-top" alt="">
+                class="d-inline-block align-top" alt="">
             Audio Analysis Platform
         </a>
     </nav>
 
 </header>
+
 <body>
-  </br>
-  </br>
-  <div align="center">
-    <h3>Upload MP3:</h3>
+    <div class="container" style="margin-top: 1rem;">
+        <div class="row">
+            <div class="col-md-12">
+                <form method=post enctype=multipart/form-data style="margin-top: 30px">
+                    <div class="row">
+                        <div class="col-md-3 offset-md-2">
+                            <label for="fileUpload" style="text-align: right; font-size: x-large">Upload MP3:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="file" name="file" id="fileUpload" multiple class="btn btn-outline-secondary">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 offset-md-5" style="padding-top: 20px">
+                            <input type=submit value="Submit" class="btn btn-primary">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom: 1rem;">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3>How it Works</h3>
+                <small>First, we convert your audio file into a set of spoken sentences. Then, we run textual sentiment
+                    analysis on
+                    these sentences to
+                    determine textual emotion behind each sentence. Finally, we do sentiment analysis using just your
+                    voice
+                    in the
+                    audio file. </small>
+                </br>
+                <small>We score you in two ways: percentage of sentences for which your voice emotion matches the text
+                    emotion, and
+                    also a proprietary score that measures how close your emotions were
+                    to the text's emotions. This proprietary score is out of 10,000 with 10,000 being perfectly
+                    matching.
+                    Good luck
+                    practicing! </small>
+            </div>
+        </div>
     </div>
-<div align="center">
-    <form method=post enctype=multipart/form-data style="margin-top: 30px">
-        <div>
-            <input type=file name=file multiple class="btn btn-outline-secondary">
-        </div>
-        <div style="padding-top: 20px">
-            <input type=submit value="Submit" class="btn btn-primary">
-        </div>
-    </form>
-  </br>
-</br>
-    <h3>How it Works</h3>
-      <small>First, we convert your audio file into a set of spoken sentences. Then, we run textual sentiment anlaysis on these sentences to
-        determine textual emotion behind each sentence. Finally, we do sentiment analysis using just your voice in the audio file. </small>
-      </br>
-      <small>We score you in two ways: percentage of sentences for which your voice emotion matches the text emotion, and also a proprietary score that measures how close your emotions were
-    to the text's emotions. This proprietary score is out of 10,000 with 10,000 being perfectly matching. Good luck practicing! </small>
-</div>
-</div>
 </body>
+
 </html>
+
 </html>
