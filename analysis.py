@@ -20,8 +20,8 @@ def process_file(path):
 
     # IBM Watson tone analyzer takes in the clauses
     tone_dict = tone_analyzer(clauses)
-    score = score(dpeffects,tone_dict)
-    return json.dumps({'audio': dpeffects, 'text': tone_dict, 'score': score})
+    score_1 = score(dpeffects,tone_dict)
+    return json.dumps({'audio': dpeffects, 'text': tone_dict, 'score': score_1})
     # save_score_data()
     # get_clause_emotions(path=path)
     # the function above returns the clause/emotion dictionary which can be used to display the scripts.
@@ -146,15 +146,16 @@ def answer(filename):
     dpeffects, = get_clause_emotions(filename)
     return json.dumps(dpeffects)
 
+audio_dictionary = {'test': ('anger',0.9)}
+text_dictionary = {'test': 'anger'}
 def score(audio_dictionary,text_dictionary):
-    audio_classes =  list(audio_dictionary.keys())
-    text_classes = list(text_dictionary.keys())
+    audio_classes =  list(audio_dictionary.values())
+    text_classes = list(text_dictionary.values())
     a = len(audio_classes)
     t = len(text_classes)
     total_n = min(a,t)
     error = 0
-    if a <= t:
-        for i in range(total_n):
-            if audio_classes[i] != text_classes[i]:
-                error+= audio_classes[i][1]
+    for i in range(total_n):
+        if audio_classes[i] != text_classes[i][0]:
+            error+= float(text_classes[i][1])
     return 10000*(1-(float(error) / total_n))
