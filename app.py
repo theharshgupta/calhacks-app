@@ -89,5 +89,10 @@ def uploaded_file(filename):
     return send_from_directory(app.config['DOWNLOAD_FOLDER'], filename, as_attachment=True)
 
 
+@app.route('/live')
+def live_text():
+    return render_template('live_text.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
