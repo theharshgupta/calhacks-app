@@ -120,9 +120,14 @@ def tone_analyzer(clauses):
         print("IBM Watson \n\n\n", r.text)
         emotions = []
         mapping = {"joy": "joy", "sadness": "neutral", "fear": "neutral", "disgust": "disgust", "anger": "anger"}
-        for sentence in r["sentences_tone"]:
-            emotion = sentence["tones"]["tone_name"]
-            emotions.append(mapping[emotion])
+        for sentence in r.text["sentences_tone"]:
+            #above is correct
+            emotion = sentence["tones"]
+            if emotion:
+                emotion = emotion[0]['tone_name']
+                emotions.append(mapping[emotion])
+            else:
+                emotions.append("neutral")
             # ex. watson data {"sentences_tone":[{"sentence_id":0,"text":"Ping pong is the best sport in the world.","tones":[{"score":0.822188,"tone_id":"joy","tone_name":"Joy"}]},{"sentence_id":1,"text":"I like Chinese people.","tones":[{"score":0.88939,"tone_id":"tentative","tone_name":"Tentative"}]},{"sentence_id":2,"text":"I fucking hate PG&E they are horrible and they should make changes in their management.","tones":[{"score":0.827514,"tone_id":"anger","tone_name":"Anger"}]},{"sentence_id":3,"text":"This company is bankrupt.","tones":[{"score":0.72178,"tone_id":"sadness","tone_name":"Sadness"}]}]}
         return emotions
     except:
