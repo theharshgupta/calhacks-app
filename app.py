@@ -1,7 +1,7 @@
 from __future__ import print_function
 import re
 import subprocess
-from flask import Flask, request, redirect, url_for, render_template, send_from_directory, send_file
+from flask import Flask, request, redirect, url_for, render_template, send_from_directory, send_file, jsonify
 from werkzeug.utils import secure_filename
 import datetime
 import requests
@@ -92,6 +92,13 @@ def uploaded_file(filename):
 @app.route('/live')
 def live_text():
     return render_template('live_text.html')
+
+
+@app.route('/live-sentiment', methods=["POST"])
+def live_sentiment():
+    if request.method == 'POST':
+        data = request.json
+    return jsonify(data)
 
 
 if __name__ == '__main__':
