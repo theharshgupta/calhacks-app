@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -40,7 +39,8 @@
                 <form method=post enctype=multipart/form-data style="margin-top: 30px">
                     <div class="row">
                         <div class="col-md-3 offset-md-2">
-                            <label for="fileUpload" style="text-align: right; font-size: x-large">Upload MP3:</label>
+                            <label for="fileUpload" style="text-align: right; font-size: x-large; width: 100%;">Upload
+                                MP3:</label>
                         </div>
                         <div class="col-md-3">
                             <input type="file" name="file" id="fileUpload" multiple class="btn btn-outline-secondary">
@@ -56,28 +56,31 @@
         </div>
         <div class="row" style="margin-bottom: 1rem;">
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <h3>How it Works</h3>
-                <small>First, we convert your audio file into a set of spoken sentences. Then, we run textual sentiment
-                    analysis on
-                    these sentences to
-                    determine textual emotion behind each sentence. Finally, we do sentiment analysis using just your
-                    voice
-                    in the
-                    audio file. </small>
-                <small>We score you in two ways: percentage of sentences for which your voice emotion matches the text
-                    emotion, and
-                    also a proprietary score that measures how close your emotions were
-                    to the text's emotions. This proprietary score is out of 10,000 with 10,000 being perfectly
-                    matching.
-                    Good luck
-                    practicing! </small>
+        <div class="container" style="position: fixed; bottom: 0;">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 style="text-align: center;">How it Works</h3>
+                    <small>First, we convert your audio file into a set of spoken sentences. Then, we run textual
+                        sentiment
+                        analysis on
+                        these sentences to
+                        determine textual emotion behind each sentence. Finally, we do sentiment analysis using just
+                        your
+                        voice
+                        in the
+                        audio file. </small>
+                    </br>
+                    <small>We score you in two ways: percentage of sentences for which your voice emotion matches the
+                        text
+                        emotion, and
+                        also a proprietary score that measures how close your emotions were
+                        to the text's emotions. This proprietary score is out of 10,000 with 10,000 being perfectly
+                        matching.
+                        Good luck
+                        practicing! </small>
+                </div>
             </div>
-        </div>
+        </div>"
     </div>
 </body>
-
-</html>
-
 </html>
