@@ -16,12 +16,12 @@ def process_file(path):
     :return: Nothing
     """
     # Deepaffects is API for emotion tagging from the mp3 file
-    dpeffects, clauses = get_clause_emotions(path)
+    dpeffects, sentences,clauses = get_clause_emotions(path)
 
     # IBM Watson tone analyzer takes in the clauses
     tone_dict = tone_analyzer(clauses)
-
-    return json.dumps({'audio': dpeffects, 'text': tone_dict})
+    score_1 = score(dpeffects,tone_dict)
+    return json.dumps({'audio': dpeffects, 'text': tone_dict, 'score': score_1})
     # save_score_data()
     # get_clause_emotions(path=path)
     # the function above returns the clause/emotion dictionary which can be used to display the scripts.
@@ -91,21 +91,27 @@ def get_clause_emotions(filename):
 
     dpeffects = {}
     string = ''
+    s = ''
     pos = 0
     l = min(len(words), len(gtime_stamps))
+    sentences = []
     clauses = []
     for i in range(l):
         if pos < len(deep_affects_time_stamps):
             t = deep_affects_time_stamps[pos]
             if gtime_stamps[i] >= t or i == (l - 1):
+                s = s+words[i] + '.'
                 string = string + words[i]
-                dpeffects[string] = audio_emotions[pos]
-                clauses.append(string)
-                string = ''
+                dpeffects[s] = audio_emotions[pos]
+                sentences.append(string)
+                clauses.append(s)
+                s = ' '
+                string = ' '
                 pos += 1
             else:
                 string = string + words[i] + ' '
-    return dpeffects, clauses
+
+    return dpeffects, sentences, clauses
 
 
 def tone_analyzer(clauses):
@@ -130,6 +136,7 @@ def tone_analyzer(clauses):
         for sentence in x["sentences_tone"]:
             #above is correct
             s = sentence["text"]
+            s = s[:-1]
             emotion = sentence["tones"]
             if emotion:
                 emotion,confidence = emotion[0]['tone_id'],emotion[0]['score']
@@ -146,6 +153,8 @@ def answer(filename):
     dpeffects, = get_clause_emotions(filename)
     return json.dumps(dpeffects)
 
+audio_dictionary = {'test': ('anger',0.9)}
+text_dictionary = {'test': 'anger'}
 def score(audio_dictionary,text_dictionary):
     audio_classes =  list(audio_dictionary.values())
     text_classes = list(text_dictionary.values())
@@ -153,8 +162,7 @@ def score(audio_dictionary,text_dictionary):
     t = len(text_classes)
     total_n = min(a,t)
     error = 0
-    if a <= t:
-        for i in range(total_n):
-            if audio_classes[i][0] != text_classes[i]:
-                error+= audio_classes[i][1]
+    for i in range(total_n):
+        if audio_classes[i] != text_classes[i][0]:
+            error+= float(text_classes[i][1])
     return 10000*(1-(float(error) / total_n))
