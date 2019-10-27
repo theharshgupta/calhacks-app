@@ -94,7 +94,7 @@ def get_clause_emotions(filename):
             t = deep_affects_time_stamps[pos]
             if gtime_stamps[i] >= t or i == (l - 1):
                 string = string + words[i] + '.'
-                dpeffects[string] = deep_affects_time_stamps[pos]
+                dpeffects[string] = audio_emotions[pos]
                 clauses.append(string)
                 string = ''
                 pos += 1
