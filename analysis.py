@@ -154,4 +154,4 @@ def score(audio_dictionary,text_dictionary):
         for i in len(total_n):
             if audio_classes[i][0] != text_classes[i]:
                 error+= audio_classes[i][1]
-    return float(error) / total_n
+    return 1-(float(error) / total_n)
