@@ -181,6 +181,7 @@ def score(audio_dictionary,text_dictionary):
     return 10000*(1-(float(error) / total_n))
 
 def get_emotion_dictionary(string):
+    string = string[:-5]
     def filter_func(c):
         acceptable = ' @$%&abcdefghijklmnopqrstuvwxyz,.;:1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ()?!-'
         if c in acceptable:
