@@ -124,8 +124,9 @@ def tone_analyzer(clauses):
         r = requests.post(watsonUrl, auth=(username, password), headers=headers, data=data)
         print("IBM Watson \n\n\n", r.text)
         emotions = []
-        mapping = {"joy": "joy", "sadness": "neutral", "fear": "neutral", "disgust": "disgust", "anger": "anger"}
+        audio_emotions = {"joy", "disgust", "anger","happiness"}
         x = eval(r.text)
+        print(x)
         watson = {}
         for sentence in x["sentences_tone"]:
             #above is correct
@@ -133,7 +134,10 @@ def tone_analyzer(clauses):
             emotion = sentence["tones"]
             if emotion:
                 emotion,confidence = emotion[0]['tone_id'],emotion[0]['score']
-                watson[s] = (mapping[emotion],confidence)
+                if emotion in audio_emotions:
+                    watson[s] = (emotion,confidence)
+                else:
+                    watson[s] = ("neutral",0.5)
             else:
                 watson[s] = ("neutral",0.5)
             # ex. watson data {"sentences_tone":[{"sentence_id":0,"text":"Ping pong is the best sport in the world.","tones":[{"score":0.822188,"tone_id":"joy","tone_name":"Joy"}]},{"sentence_id":1,"text":"I like Chinese people.","tones":[{"score":0.88939,"tone_id":"tentative","tone_name":"Tentative"}]},{"sentence_id":2,"text":"I fucking hate PG&E they are horrible and they should make changes in their management.","tones":[{"score":0.827514,"tone_id":"anger","tone_name":"Anger"}]},{"sentence_id":3,"text":"This company is bankrupt.","tones":[{"score":0.72178,"tone_id":"sadness","tone_name":"Sadness"}]}]}
@@ -146,8 +150,24 @@ def answer(filename):
     dpeffects, = get_clause_emotions(filename)
     return json.dumps(dpeffects)
 
-audio_dictionary = {'test': ('anger',0.9)}
-text_dictionary = {'test': 'anger'}
+
+
+def call_watson(string):
+    #calls Watson API on a string and returns full watson data dictionary if successful or returns a string if it fails
+
+    api_key = "rNiB7aYI-pVZQ_6I-U-D_avkVNsOUUYMf9n5dXOhrjHc"
+    username = 'apikey'
+    password = api_key
+    watsonUrl = 'https://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21'
+    headers = {"content-type": "text/plain"}
+    data = string
+    try:
+        r = requests.post(watsonUrl, auth=(username, password), headers=headers, data=data)
+        print("IBM Watson \n\n\n", r.text)
+        x = eval(r.text)
+        return x
+    except Exception:
+        return traceback.format_exc()
 
 def score(audio_dictionary,text_dictionary):
     audio_classes =  list(audio_dictionary.values())
@@ -162,27 +182,30 @@ def score(audio_dictionary,text_dictionary):
     return 10000*(1-(float(error) / total_n))
 
 def get_emotion_dictionary(string):
-    def filter_func(c):
-        acceptable = ' @$%&abcdefghijklmnopqrstuvwxyz,.;:1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ()?!-'
-        if c in acceptable:
-            return c
-        else:
-            return ''
-    filtered_string = ''
-    for c in string:
-        if filter_func(c):
-            filtered_string = filtered_string + c
-    clauses = []
-    string = ''
-    for c in filtered_string:
-        string = string + c
-        if c in ',.;:()?!':
-            clauses.append(string)
-            string = ''
-        elif c == ' ':
-            if len(string) > 25:
-                clauses.append(string)
-                string = ''
-    dictionary = tone_analyzer(clauses)
-    #dictionary
-    return dictionary
+    string = string[:-5]
+    x = call_watson(string)
+    if type(x) == dict:
+        string2 = string[:]
+        clauses = []
+        string = ''
+        if len(string2) > 70:
+            for c in string2:
+                string = string + c
+                if c in ',.;:()?!':
+                    clauses.append(string)
+                    string = ''
+                elif c == ' ':
+                    if len(string) > 25:
+                        clauses.append(string)
+                        string = ''
+            d_clause_emotion_pairs = tone_analyzer(clauses)
+            document_emotions = {}
+            if type(x) == dict:
+                document_emotions['emotion1'] = (x["document_tone"]["tones"][0]["tone_id"],x["document_tone"]["tones"][0]["score"])
+                document_emotions['emotion2'] = (x["document_tone"]["tones"][1]["tone_id"],x["document_tone"]["tones"][1]["score"])
+            #document emotions has two keys: 'emotion1','emotion2', corresponding to the top two emotions in the overall
+            #document respectively. These keys each point to a value that is a tuple: (tone_id,score). Score means certainty
+            dictionary = {'d_clause_emotion': d_clause_emotion_pairs,'overall_emotions': document_emotions}
+            #should be updated to to render_template?
+            return dictionary
+    #this may return nothing if the string input is too short.
