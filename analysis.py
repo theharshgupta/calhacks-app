@@ -128,8 +128,7 @@ def tone_analyzer(clauses):
             s = sentence["text"]
             emotion = sentence["tones"]
             if emotion:
-                emotion = emotion[0]['tone_id']
-                confidence = emotion[0]['score']
+                emotion,confidence = emotion[0]['tone_id'],emotion[0]['score']
                 watson[s] = (mapping[emotion],confidence)
             else:
                 watson[s] = ("neutral",0.5)
