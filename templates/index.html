@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>hearo</title>
+    <title>Hearo - Audio Analysis</title>
     <meta name="viewport" content="width = device-width, initial-scale=1">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -30,8 +30,8 @@
     </style>
 
     <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="/" style="font-family:'Century Gothic Pro';font-size:20px">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" width="25" height="25"
+        <a class="navbar-brand" href="/" style="font-family:'Century Gothic Pro';font-size:25px">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" width="35" height="35"
                 class="d-inline-block align-top" alt="">
             hearo
         </a>
@@ -66,7 +66,7 @@
         <div class="row" style="margin-top: 1rem;">
             <div class="col-md-6" style="font-size: 14px;">
                 <div class="card" style="min-height: 26rem;">
-                    <h4 class="card-header" style="text-align: center;">Textual Sentiment Analysis</h4>
+                    <h4 class="card-header bg-info" style="text-align: center;">Textual Sentiment Analysis</h4>
                     <div class="card-body">
                         <p class="card-text" id="textAnalysis"></p>
                     </div>
@@ -74,7 +74,7 @@
             </div>
             <div class="col-md-6" style="font-size: 14px;">
                 <div class="card" style="min-height: 26rem;">
-                    <h4 class="card-header" style="text-align: center;">Audio Sentiment Analysis</h4>
+                    <h4 class="card-header bg-success" style="text-align: center;">Audio Sentiment Analysis</h4>
                     <div class="card-body">
                         <p class="card-text" id="audioAnalysis"></p>
                     </div>
