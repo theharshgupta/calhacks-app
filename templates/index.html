@@ -19,6 +19,7 @@
     <script type="text/javascript">
         var res = null;
         res = {{ result | tojson }};
+        var score = {{ score }}
     </script>
 
     <script src="{{ url_for('static', filename='js/displayAnalysis.js') }}"></script>
@@ -33,7 +34,7 @@
         <a class="navbar-brand" href="/" style="font-family:'Century Gothic Pro';font-size:25px">
             <img src="{{ url_for('static', filename='images/logo.png') }}" width="35" height="35"
                 class="d-inline-block align-top" alt="">
-            hearo {{score}}
+            hearo
         </a>
     </nav>
 </head>
@@ -52,7 +53,7 @@
                         <div class="col-md-4" style="padding-left: 20px">
                             <input type="file" name="file" id="fileUpload" multiple class="btn btn-outline-secondary">
                         </div>
-                          <div class="col-md-3" style="padding-top: 3px; padding-left: 10px">
+                        <div class="col-md-3" style="padding-top: 3px; padding-left: 10px">
                             <input id="audioSubmit" type=submit value="Submit" class="btn btn-primary">
                         </div>
                     </div>
@@ -60,13 +61,16 @@
                 </form>
             </div>
         </div>
-
-        <br></br>
-
+        <div class="row">
+            <div class="col-md-12" style="font-size: 14px;">
+                <h3 id="score" style="text-align:center; margin-top: 2rem; display:none"></h3>
+            </div>
+        </div>
         <div class="row" style="margin-top: 1rem;">
             <div class="col-md-6" style="font-size: 14px;">
                 <div class="card" style="min-height: 26rem;">
-                    <h4 class="card-header" style="text-align: center; font-family:'Century Gothic Pro',serif;" >Textual Sentiment Analysis</h4>
+                    <h4 class="card-header" style="text-align: center; font-family:'Century Gothic Pro',serif;">Textual
+                        Sentiment Analysis</h4>
                     <div class="card-body">
                         <p class="card-text" id="textAnalysis"></p>
                     </div>
@@ -74,7 +78,8 @@
             </div>
             <div class="col-md-6" style="font-size: 14px;">
                 <div class="card" style="min-height: 26rem;">
-                    <h4 class="card-header" style="text-align: center; font-family:'Century Gothic Pro',serif;">Audio Emotion Analysis</h4>
+                    <h4 class="card-header" style="text-align: center; font-family:'Century Gothic Pro',serif;">Audio
+                        Emotion Analysis</h4>
                     <div class="card-body">
                         <p class="card-text" id="audioAnalysis"></p>
                     </div>

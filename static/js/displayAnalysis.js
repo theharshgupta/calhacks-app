@@ -10,6 +10,11 @@ $(document).ready(function () {
             "distgust": "#2b0505"
         };
 
+        if(score) {
+            $("#score").html("Score: " + score);
+            $("#score").show();
+        }
+
         createTextProfile($("#textAnalysis"), data["text"], encoding);
         createAudioProfile($("#audioAnalysis"), data["audio"], encoding);
         $(function () {
