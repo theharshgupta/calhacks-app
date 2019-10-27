@@ -25,11 +25,11 @@
     </script>
 
     <script src="{{ url_for('static', filename='js/displayAnalysis.js') }}"></script>
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-dark bg-dark">
         <a class="navbar-brand" href="/">
             <img src="{{ url_for('static', filename='images/logowave.png') }}" width="25" height="25"
                 class="d-inline-block align-top" alt="">
-            Audio Analysis Platform
+            Hearo
         </a>
     </nav>
 </head>
@@ -57,13 +57,19 @@
                 </form>
             </div>
         </div>
+
+        <br></br>
+
         <div class="row" style="margin-top: 1rem;">
             <div class="col-md-6" style="font-size: 14px;">
+              <h4>Textual Sentiment Analysis</h4>
                 <p id="textAnalysis">
 
                 </p>
             </div>
+
             <div class="col-md-6" style="font-size: 14px;">
+              <h4>Audio Sentiment Analysis</h4>
                 <p id="audioAnalysis">
 
                 </p>
