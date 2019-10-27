@@ -1,23 +1,10 @@
 from __future__ import print_function
 import re
 import subprocess
-import datefinder
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory, send_file
 from werkzeug.utils import secure_filename
 import datetime
-# from tabulate import tabulate
-import tabula
 import requests
-import base64
-import time
-from pprint import pprint
-import sqlite3 as s
-import numpy as np
-import pandas
-import csv
-import pdfplumber as plum
-import os, shutil
-from classify import classify
 from gcloud_api import *
 
 '''
@@ -86,6 +73,9 @@ def process_file(path):
     :return: Nothing
     """
     emotion_tagging(path=path)
+    save_score_data()
+    get_clause_emotions(path=path)
+    #the function above returns the clause/emotion dictionary which can be used to display the scripts.
 
 
 def emptydir():
@@ -159,10 +149,71 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 
-def get_gcloud_data(filename):
-    # saves gcloud data as filename into Google_voice_data folder
-    response = gcloud_speech_to_text(filename)
+def get_clause_emotions(filename):
+    # loads audio file-filename and returns clause_and_emotion dictionary.
+    gresponse = gcloud_speech_to_text(filename)
+    deepresponse = emotion_tagging(filename)
+
+    deep_affects_time_stamps = []
+    audio_emotions = []
+
+    google_words = gresponse["words"]
+    gtime_stamps = []
+    words = []
+
+    for word in google_words:
+
+        words.append(word["word"])
+        gtime_stamps.append(float(word['end_time']) / 1000)
+
+    for tag in deepresponse:
+        deep_affects_time_stamps.append(tag["end"])
+        audio_emotions.append(tag["emotion"])
+
+    dpeffects = {}
+    string = ''
+    pos = 0
+    l = min(len(words), len(gtime_stamps))
+    for i in range(l):
+        if pos < len(deep_affects_time_stamps):
+            t = deep_affects_time_stamps[pos]
+            if gtime_stamps[i] >= t or i == (l - 1):
+                string = string + words[i] + '.'
+                dpeffects[string] = deep_affects_time_stamps[pos]
+                string = ''
+                pos += 1
+            else:
+                string = string + words[i] + ' '
+    return dpeffects
+
+def answer(filename):
+    dpeffects, = get_clause_emotions(filename)
+    return json.dumps(dpeffects)
 
 
-def save_score_data():
-    subprocess.Popen(["api/python2.7/bin/python", "DeepMoji-master/examples/score_texts_emojis.py"])
+def tone_analyzer():
+    # API KEY rNiB7aYI-pVZQ_6I-U-D_avkVNsOUUYMf9n5dXOhrjHc
+    # https://gateway.watsonplatform.net/tone-analyzer/api
+
+    url = "https://proxy.api.deepaffects.com/audio/generic/api/v2/sync/recognise_emotion?apikey" \
+          "=7h1YbhaMje9IBTrUTDGNa8KGABD1n9cn"
+
+    headers = {'Content-Type': "application/json"}
+
+    # with open(path, 'rb') as fin:
+    #     audio_content = fin.read()
+    # audio_decoded = base64.b64encode(audio_content).decode('utf-8')
+
+    body_json = {"content": "12",
+                 "encoding": "MPEG Audio",
+                 "language_code": "en-US",
+                 "sample_rate": 48000}
+
+    """
+    curl -X GET -u "apikey:rNiB7aYI-pVZQ_6I-U-D_avkVNsOUUYMf9n5dXOhrjHchttps://gateway.watsonplatform.net/tone-analyzer/api/v3/tone?version=2017-09-21
+    &text=Team%2C%20I%20know%20that%20times%20are%20tough%21%20Product%20sales%20have
+    %20been%20disappointing%20for%20the%20past%20three%20quarters.%20We%20have%20a%20
+    competitive%20product%2C%20but%20we%20need%20to%20do%20a%20better%20job%20of%20
+    selling%20it%21"
+    """
+    data = requests.post(url=url, json=body_json, headers=headers)
