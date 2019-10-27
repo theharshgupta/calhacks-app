@@ -94,7 +94,9 @@ def get_clause_emotions(filename):
         if pos < len(deep_affects_time_stamps):
             t = deep_affects_time_stamps[pos]
             if gtime_stamps[i] >= t or i == (l - 1):
-                string = string + words[i] + '.'
+                string = string + words[i]
+                if words[-1] != '.'
+                    string = string + '.'
                 dpeffects[string] = audio_emotions[pos]
                 clauses.append(string)
                 string = ''
@@ -153,4 +155,4 @@ def score(audio_dictionary,text_dictionary):
         for i in len(total_n):
             if audio_classes[i][0] != text_classes[i]:
                 error+= audio_classes[i][1]
-    return 1-(float(error) / total_n)
+    return 10000*(1-(float(error) / total_n))
