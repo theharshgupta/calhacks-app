@@ -75,17 +75,17 @@ class VocabBuilder():
             self.count_words_in_sentence(words)
 
 
-class MasterVocab():
+class MainVocab():
     """ Combines vocabularies.
     """
 
     def __init__(self):
 
         # initialize custom tokens
-        self.master_vocab = {}
+        self.main_vocab = {}
 
-    def populate_master_vocab(self, vocab_path, min_words=1, force_appearance=None):
-        """ Populates the master vocabulary using all vocabularies found in the
+    def populate_main_vocab(self, vocab_path, min_words=1, force_appearance=None):
+        """ Populates the main vocabulary using all vocabularies found in the
             given path. Vocabularies should be named *.npz. Expects the
             vocabularies to be numpy arrays with counts. Normalizes the counts
             and combines them.
@@ -93,9 +93,9 @@ class MasterVocab():
         # Arguments:
             vocab_path: Path containing vocabularies to be combined.
             min_words: Minimum amount of occurences a word must have in order
-                to be included in the master vocabulary.
+                to be included in the main vocabulary.
             force_appearance: Optional vocabulary filename that will be added
-                to the master vocabulary no matter what. This vocabulary must
+                to the main vocabulary no matter what. This vocabulary must
                 be present in vocab_path.
         """
 
@@ -131,7 +131,7 @@ class MasterVocab():
         else:
             force_appearance_path, force_appearance_vocab = None, None
 
-        # normalize word counts before inserting into master dict
+        # normalize word counts before inserting into main dict
         for path in paths:
             normalization_factor = max_size / sizes[path]
             print('Norm factor for path {} -> {}'.format(path, normalization_factor))
@@ -151,17 +151,17 @@ class MasterVocab():
                     # if force_word_count < 5:
                         # continue
 
-                if word in self.master_vocab:
-                    self.master_vocab[word] += normalized_count
+                if word in self.main_vocab:
+                    self.main_vocab[word] += normalized_count
                 else:
-                    self.master_vocab[word] = normalized_count
+                    self.main_vocab[word] = normalized_count
 
-        print('Size of master_dict {}'.format(len(self.master_vocab)))
-        print("Hashes for master dict: {}".format(
-            len([w for w in self.master_vocab if '#' in w[0]])))
+        print('Size of main_dict {}'.format(len(self.main_vocab)))
+        print("Hashes for main dict: {}".format(
+            len([w for w in self.main_vocab if '#' in w[0]])))
 
     def save_vocab(self, path_count, path_vocab, word_limit=100000):
-        """ Saves the master vocabulary into a file.
+        """ Saves the main vocabulary into a file.
         """
 
         # reserve space for 10 special tokens
@@ -171,7 +171,7 @@ class MasterVocab():
             words[token] = -1
 
         # sort words by frequency
-        desc_order = OrderedDict(sorted(self.master_vocab.items(),
+        desc_order = OrderedDict(sorted(self.main_vocab.items(),
                                         key=lambda kv: kv[1], reverse=True))
         words.update(desc_order)
 
